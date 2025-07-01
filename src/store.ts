@@ -15,6 +15,13 @@ const INITIAL_PLAYERS: Player[] = [
   { isDealer: true, bank: 0, hands: [new Hand()] },
 ]
 
+const reacreatePlayers = (bank: number): Player[] => {
+  return [
+    { isDealer: false, bank: bank, hands: [new Hand()] },
+    { isDealer: true, bank: 0, hands: [new Hand()] },
+  ]
+}
+
 export const state = reactive<GameState>({
   shoe: generateShoe(NUMBER_OF_DECKS),
   cardsPlayed: 0,
@@ -86,6 +93,7 @@ function checkForGameOver(): boolean {
   if (state.players[0].bank === 0 && state.currentBet === 0) {
     playSound(Sounds.GameOver)
     state.isGameOver = true
+    localStorage.setItem('blackjackState', 'false');
     return true
   }
   return false
@@ -100,14 +108,15 @@ function drawCard() {
 
 /** Reshuffle the shoe if less than 25% of the cards are left. */
 async function reshuffleIfNeeded() {
-  console.log(1 - state.cardsPlayed / (NUMBER_OF_DECKS * 52))
-  console.log(`Cards played: ${state.cardsPlayed}, Total cards: ${NUMBER_OF_DECKS * 52}`)
-  console.log(`Shoe --- ${state.shoe}`)
+
   const remainingPercentage = 1 - state.cardsPlayed / (NUMBER_OF_DECKS * 52)
   if (remainingPercentage > SHUFFLE_THRESHOLD) return
-  console.log('shuggle ')
+
+  playSound(Sounds.Shuffle)
+  state.players[0].hands[0].result = 'shuffle'
   state.shoe = shuffle(state.shoe)
   state.cardsPlayed = 0
+  await sleep()
 }
 
 /** Deal two cards to each player */
@@ -288,9 +297,10 @@ async function endRound() {
   await determineResults()
   await settleBets()
   await collectWinnings()
-  await resetHands()
   await reshuffleIfNeeded()
+  await resetHands()
   await redoBet()
+  await saveStateToStorage()
 
   // Show the Coins component and wait for the user to place a bet
   showCoins.visible = true
@@ -411,3 +421,31 @@ export function sleep(ms: number = 900) {
 
 // Add a state variable to control the visibility of the Coins component
 export const showCoins = reactive({ visible: true })
+
+// Save state to localStorage
+export async function saveStateToStorage() {
+  await localStorage.setItem('blackjackState', JSON.stringify(state))
+}
+
+// Load state from localStorage
+export async function loadStateFromStorage() {
+  const data = localStorage.getItem('blackjackState')
+  if (data) {
+    const parsed = JSON.parse(data)
+    for (const key in parsed) {
+      if (key in state) {
+        if (key === 'players') {
+          state[key] = reacreatePlayers(parsed[key][0].bank); // Recreate players with the bank from the saved state
+          continue;
+        }
+        // For objects/arrays, you may want a deeper merge depending on your needs
+        state[key] = parsed[key]
+      }
+    }
+  }
+}
+
+export function recordExists(): boolean {
+  const state = localStorage.getItem('blackjackState'); 
+  return state === 'false' || state === null ? false : true; 
+}

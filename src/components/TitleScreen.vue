@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { playRound, state, resetBank } from '../store'
+import { playRound, state, resetBank, recordExists, loadStateFromStorage } from '../store'
 import { ref } from 'vue'
 
 const showTitleScreen = ref(true)
@@ -8,7 +8,12 @@ function startGame() {
   showTitleScreen.value = false
   resetBank()
   state.isGameOver = false
-  // state 
+}
+
+async function continueGame() {
+  resetBank()
+  await loadStateFromStorage();
+  showTitleScreen.value = false
 }
 </script>
 
@@ -24,14 +29,19 @@ function startGame() {
         <p>Blackjack Simulator</p>
       </div>
       <transition name="fade" mode="out-in">
-        <div class="progress-container" v-if="state.soundLoadProgress < 100">
-          <progress :value="state.soundLoadProgress" max="100">
-            {{ state.soundLoadProgress }}%
-          </progress>
+        <div>
+          <div class="progress-container" v-if="state.soundLoadProgress < 100">
+            <progress :value="state.soundLoadProgress" max="100">
+              {{ state.soundLoadProgress }}%
+            </progress>
+          </div>
+          <button class="button" v-else @click="startGame">
+            {{ state.isGameOver ? 'Play Again' : 'Start Game' }}
+          </button>
+          <button v-if="recordExists()" class="button" @click="continueGame">
+            Continue Previous Game
+          </button>
         </div>
-        <button class="button" v-else @click="startGame">
-          {{ state.isGameOver ? 'Play Again' : 'Start Game' }}
-        </button>
       </transition>
     </section>
   </transition>

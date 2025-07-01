@@ -61,7 +61,7 @@ export class Hand {
   id: number
   cards: Card[]
   bet: number
-  result?: 'win' | 'lose' | 'push' | 'bust' | 'blackjack'
+  result?: 'win' | 'lose' | 'push' | 'bust' | 'blackjack' | 'shuffle'
 
   constructor(bet = 0) {
     this.id = new Date().getTime() + Math.random()

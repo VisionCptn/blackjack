@@ -1,6 +1,7 @@
 <template>
   <transition name="fade">
-  <div v-show="showCoins.visible" role="coins"> 
+    <div class="coins-wrapper">
+ <div v-show="showCoins.visible" role="coins"> 
       <div class="chip-container" v-for="(coin, index) in coins" :key="index">
           <Chip :onClick="() => addBet(coin.value)" :color="coin.color" :value="coin.value" :width="'5rem'" :height="'5rem'" />
       </div>
@@ -9,6 +10,8 @@
       </button>
     <!-- </span> -->
     </div>
+    </div>
+ 
   </transition>
 </template>
 
@@ -29,6 +32,16 @@ async function playRoundAndHideCoins() {
 
 <style scoped>
 
+.coins-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* height: 100%; */
+  position: relative;
+}
+
 [role='coins'] {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -36,8 +49,8 @@ async function playRoundAndHideCoins() {
   width: max-content;
   margin: 0 auto;
   order: -1;
+  bottom: 3rem;
   position: absolute;
-  bottom: 10rem;
 }
 .chip-container {
   position: relative;

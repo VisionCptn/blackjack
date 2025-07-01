@@ -34,9 +34,9 @@ function isSplitCard(card: Card) {
 </script>
 
 <template>
-<UserBet v-if="!player.isDealer" :key="Date.now()" :class="{'opacityHalf': isSplitHand && !isActiveHand }" />
+
+  <UserBet v-if="!player.isDealer" :key="Date.now()" :class="{'opacityHalf': isSplitHand && !isActiveHand }" />
   <article class="hand" :class="{ 'active-hand': isActiveHand, 'split-hand': isSplitHand }">
-    
     <h2 class="sr-only">{{ isDealer ? "Dealer's" : 'Your' }} hand</h2>
     <transition-group name="deal">
       <PlayingCard

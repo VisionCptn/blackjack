@@ -23,7 +23,7 @@ export const CardValue = {
 export const CardSuits = ['♠', '♦', '♣', '♥'] as const
 
 export function generateShoe(numberOfDecks: number) {
-  console.log(`Generating shoe with ${numberOfDecks} decks`)
+
   const shoe: Card[] = []
   for (let i = 0; i < numberOfDecks; i++) {
     for (const card of generateDeck()) {
@@ -46,9 +46,9 @@ export function generateDeck() {
 
 export function shuffle<T>(array: T[]) {
   for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[array[i], array[j]] = [array[j], array[i]]
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]
   }
-  console.log(array)
-  return array
+
+  return array;
 }

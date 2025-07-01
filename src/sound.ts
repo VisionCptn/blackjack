@@ -15,6 +15,7 @@ import goodHit from './assets/sounds/636674__cogfirestudios__app-ui-sound.mp3'
 import blackjackBoom from './assets/sounds/636624__cogfirestudios__deep-hit.mp3'
 import gameOver from './assets/sounds/636655__cogfirestudios__ui-achievement-puzzle-game-application.mp3'
 import bet from './assets/sounds/677860__el_boss__ui-button-click-snap.mp3'
+import shuffle from './assets/sounds/201253__empraetorius__card-shuffle.mp3';
 
 export enum Sounds {
   Deal,
@@ -34,6 +35,7 @@ export enum Sounds {
   Bank,
   GameOver,
   DealerBlackjack,
+  Shuffle,
 }
 
 const files = new Map<Sounds, string>([
@@ -52,6 +54,7 @@ const files = new Map<Sounds, string>([
   [Sounds.BadHit, badHit],
   [Sounds.GoodHit, goodHit],
   [Sounds.GameOver, gameOver],
+  [Sounds.Shuffle, shuffle],
 ])
 
 const SOUND_PERCENT = 100 / files.size

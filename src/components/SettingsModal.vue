@@ -55,6 +55,7 @@
                       v-model="state.autoPlaceBet"
                       :class="state.autoPlaceBet ? 'bg-green-600' : 'bg-gray-200'"
                       class="relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none"
+                      key="placebet"
                     >
                       <span class="sr-only">Auto last bet?</span>
                       <span
@@ -69,6 +70,7 @@
                       v-model="state.isMuted"
                       :class="!state.isMuted ? 'bg-green-600' : 'bg-gray-200'"
                       class="relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none"
+                      key="sound"
                     >
                       <span class="sr-only">Sound</span>
                       <span

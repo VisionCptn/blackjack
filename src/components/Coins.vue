@@ -1,15 +1,17 @@
 <template>
   <transition name="fade">
     <div class="coins-wrapper">
- <div v-show="showCoins.visible" role="coins"> 
-      <div class="chip-container" v-for="(coin, index) in coins" :key="index">
+      <h2 v-show="state.currentBet === 0" class="bet-text">Place your bet</h2>
+      <div v-show="showCoins.visible" role="coins"> 
+        <div class="chip-container" v-for="(coin, index) in coins" :key="index">
           <Chip :onClick="() => addBet(coin.value)" :color="coin.color" :value="coin.value" :width="'5rem'" :height="'5rem'" />
+          </div>
+          <button class="button" :disabled="state.currentBet === 0" @click="() => playRoundAndHideCoins()">
+            Deal
+          </button>
+        <!-- </span> -->
       </div>
-      <button class="button" :disabled="state.currentBet === 0" @click="() => playRoundAndHideCoins()">
-        Deal
-      </button>
-    <!-- </span> -->
-    </div>
+      
     </div>
  
   </transition>
@@ -107,6 +109,13 @@ button {
 button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+.bet-text {
+  bottom: 20rem;
+  position: absolute;
+  font-size: 3rem;
+  color: var(--color-off-white);
 }
 .is-spinning {
   animation: spin 1s ease;

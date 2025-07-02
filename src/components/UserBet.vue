@@ -1,6 +1,5 @@
 <template>
 <div class="user-bet-container" v-show="state.currentBet > 0">
-    
   <div class="user-bet">
     <div class="chip-stack">
       <div class="chip-container" v-for="(coin, index) in state.currentBetCoins" :key="index">

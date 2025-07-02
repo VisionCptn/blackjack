@@ -16,6 +16,7 @@ import UserBet from './src/components/UserBet.vue'
 import PlayerToolbar from './src/components/PlayerToolbar.vue'
 import TitleScreen from './src/components/TitleScreen.vue'
 import GameHeader from './src/components/GameHeader.vue'
+import CenteredBluePanel from './src/components/CenteredBluePanel.vue'
 
 onMounted(() => {
   initSound()
@@ -51,32 +52,8 @@ function onClickCapture(e: MouseEvent) {
   </section>
     <PlayerToolbar />
   </main>
-  <div>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
-    <p>content</p>
+  <div class="blueBG w-full float-left">
+    <CenteredBluePanel />
   </div>
   <TitleScreen />
 </template>
@@ -129,4 +106,20 @@ section.player:not(.dealer) > :nth-child(3) {
 section.player.dealer {
   z-index: -1;
 }
+
+
+.blueBG {
+    background-color: var(--color-chip); /* Dark green felt base */
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.05) 0px,
+      rgba(0, 0, 0, 0.05) 2px,
+      transparent 2px,
+      transparent 6px
+    );
+  background-size: cover;
+  font-family: sans-serif;
+}
+
 </style>

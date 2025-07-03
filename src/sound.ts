@@ -1,4 +1,4 @@
-import { state } from './store'
+import { state } from './store/store'
 
 import deal from './assets/sounds/757328__steaq__ui-hover-item.mp3'
 import click from './assets/sounds/159698__qubodup__scroll-step-hover-sound-for-user-interface.mp3'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { playRound, state, resetBank, recordExists, loadStateFromStorage } from '../store'
+import { playRound, state, resetBank, recordExists, loadStateFromStorage } from '../store/store'
 import { ref } from 'vue'
 
 const showTitleScreen = ref(true)

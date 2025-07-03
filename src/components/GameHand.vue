@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Card, Player, Hand } from '../types'
-import { dealer, state } from '../store'
+import { dealer, state } from '../store/store'
 import HandTotal from './HandTotal.vue'
 import HandBet from './HandBet.vue'
 import PlayingCard from './PlayingCard.vue'
@@ -12,7 +12,7 @@ const props = defineProps<{
   hand: Hand
   player: Player
 }>()
-
+console.log(state)
 const isActiveHand = computed(() => state.activeHand === props.hand && !props.player.isDealer)
 
 const isSplitHand = computed(

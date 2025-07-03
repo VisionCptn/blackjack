@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
-import { state } from '../store'
+import { state } from '../store/store'
 
 const isIncreasing = ref(false)
 

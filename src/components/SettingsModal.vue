@@ -102,7 +102,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { state, resetBank } from '../store'
+  import { state, resetBank } from '../store/store'
   const props = defineProps<{ modelValue: boolean }>()
   const emit = defineEmits(['update:modelValue'])
   import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot, Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue';

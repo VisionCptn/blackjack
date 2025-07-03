@@ -5,18 +5,18 @@
   </div>
 </template> -->
 <script setup lang="ts">
-import { state } from './src/store'
+import { state } from '../src/store/store'
 import { onMounted } from 'vue'
-import GameHand from './src/components/GameHand.vue'
-import SvgSprite from './src/components/SvgSprite.vue'
-import AnimatedBackground from './src/components/AnimatedBackground.vue'
-import { playSound, Sounds, initSound } from './src/sound'
+import GameHand from '../src/components/GameHand.vue'
+import SvgSprite from '../src/components/SvgSprite.vue'
+import AnimatedBackground from '../src/components/AnimatedBackground.vue'
+import { playSound, Sounds, initSound } from '../src/sound'
 // import Coins from './src/components/Coins.vue'
-import UserBet from './src/components/UserBet.vue'
-import PlayerToolbar from './src/components/PlayerToolbar.vue'
-import TitleScreen from './src/components/TitleScreen.vue'
-import GameHeader from './src/components/GameHeader.vue'
-import CenteredBluePanel from './src/components/CenteredBluePanel.vue'
+import UserBet from '../src/components/UserBet.vue'
+import PlayerToolbar from '../src/components/PlayerToolbar.vue'
+import TitleScreen from '../src/components/TitleScreen.vue'
+import GameHeader from '../src/components/GameHeader.vue'
+import CenteredBluePanel from '../src/components/CenteredBluePanel.vue'
 
 onMounted(() => {
   initSound()
@@ -103,9 +103,9 @@ section.player:not(.dealer) > :nth-child(3) {
   /* gap: 1rem 0rem; */
 }
 
-section.player.dealer {
+/* section.player.dealer {
   z-index: -1;
-}
+} */
 
 
 .blueBG {

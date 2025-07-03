@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Hand } from '../types';
-import { dealer, state } from '../store';
+import { dealer, state } from '../store/store';
 import { computed } from 'vue'
 
 const props = defineProps<{ hand: Hand }>()

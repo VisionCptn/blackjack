@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { canDoubleDown, canSplit, state, doubleDown, endHand, hit, split } from '../store';
+import { canDoubleDown, canSplit, state, doubleDown, endHand, hit, split } from '../store/store';
 import PlayerBank from './PlayerBank.vue';
 import Coins from './Coins.vue';
 </script>

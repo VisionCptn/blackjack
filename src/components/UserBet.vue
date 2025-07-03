@@ -27,7 +27,7 @@
 import { ref } from 'vue';
 import Chip from './Chip.vue';
 import { coins } from '../coins';
-import { state } from '../store';
+import { state } from '../store/store';
 
 
 let deleteCoin = (coinValue: number) => {

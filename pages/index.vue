@@ -109,7 +109,7 @@ section.player:not(.dealer) > :nth-child(3) {
 
 
 .blueBG {
-    background-color: var(--color-chip); /* Dark green felt base */
+    /* background-color: var(--color-chip);
   background-image: 
     repeating-linear-gradient(
       45deg,
@@ -119,7 +119,8 @@ section.player:not(.dealer) > :nth-child(3) {
       transparent 6px
     );
   background-size: cover;
-  font-family: sans-serif;
+  font-family: sans-serif; */
+  background: url('../public/poker_pattern.png');
 }
 
 </style>

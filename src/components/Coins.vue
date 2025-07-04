@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <div class="coins-wrapper">
-      <h2 v-show="state.currentBet === 0" class="bet-text">Place your bet</h2>
+      <h2 v-show="showBetText" class="bet-text">Place your bet</h2>
       <div v-show="showCoins.visible" role="coins"> 
         <div class="chip-container" v-for="(coin, index) in coins" :key="index">
           <Chip :onClick="() => addBet(coin.value)" :color="coin.color" :value="coin.value" :width="'5rem'" :height="'5rem'" />
@@ -22,13 +22,36 @@
 import { showCoins, addBet, state, playRound, sleep} from '../store/store';
 import { coins } from '../coins';
 import Chip from './Chip.vue';
+import { ref, watch } from 'vue'
 
+const showBetText = ref(true)
+let betTextTimeout: ReturnType<typeof setTimeout> | null = null
+  
 async function playRoundAndHideCoins() {
   if (!showCoins.visible) return;
   showCoins.visible = false;
   await sleep(100);
   playRound();
 };
+
+
+watch(() => state.currentBet, (newVal, oldVal) => {
+  // if (newVal > 0) showBetText.value = false
+  // if (newVal == 0) showBetText.value = true
+   if (newVal > 0) {
+    showBetText.value = false
+    if (betTextTimeout) {
+      clearTimeout(betTextTimeout)
+      betTextTimeout = null
+    }
+  }
+  if (newVal === 0) {
+    if (betTextTimeout) clearTimeout(betTextTimeout)
+    betTextTimeout = setTimeout(() => {
+      showBetText.value = true
+    }, 300) // Adjust delay as needed (ms)
+  }
+})
 
 </script>
 

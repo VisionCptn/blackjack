@@ -48,6 +48,12 @@
   }
 }
 
+@media (min-width: 1624px) and (min-height: 900px) {
+  :root {
+    font-size: 18px;
+  }
+}
+
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;

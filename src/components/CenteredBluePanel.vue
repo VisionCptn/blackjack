@@ -369,6 +369,9 @@
   font-family: inherit;
   line-height: 1.6;
   background-color: blue;
+  border: 2px solid white;
+  margin-top: 40px;
+  border-radius: 1.75rem;
 }
 
 .greenBG {

@@ -45,9 +45,9 @@ export const state = reactive<GameState>({
   allowInsurance: typeof window !== 'undefined' && localStorage.getItem('allowInsurance') !== null ? JSON.parse(localStorage.getItem('allowInsurance') as string) : false,
 })
 
-state.shoe[0].rank = '8';
+// state.shoe[0].rank = '8';
 // state.shoe[1].rank = '8';
-state.shoe[2].rank = '8';
+// state.shoe[2].rank = '8';
 // state.shoe[3].rank = '4';
 // state.shoe[4].rank = '2';
 // state.shoe[5].rank = '2';

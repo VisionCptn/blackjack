@@ -1,17 +1,43 @@
+<script setup lang="ts">
+  import { ref } from 'vue'
+  import { state, resetBank } from '../store/store'
+  const props = defineProps<{ modelValue: boolean }>()
+  const emit = defineEmits(['update:modelValue'])
+  import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot, Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue';
+  import { watch } from 'vue'
+
+  function closeModal() {
+    emit('update:modelValue', false);
+  }
+
+  function restartGame() {
+    state.shoeSize = newDeckSize.value;
+    state.isGameOver = true
+    closeModal();
+    // resetBank();
+  }
+
+  watch(() => state.autoPlaceBet, (newVal) => {
+    localStorage.setItem('autoPlaceBet', JSON.stringify(newVal))
+  })
+
+  // Repeat for other switches:
+  watch(() => state.isMuted, (newVal) => {
+    localStorage.setItem('isMuted', JSON.stringify(newVal))
+  })
+
+  watch(() => state.allowInsurance, (newVal) => {
+    localStorage.setItem('allowInsurance', JSON.stringify(newVal))
+  })
+
+  watch(() => state.shoeSize, (newVal) => {
+    localStorage.setItem('shoeSize', JSON.stringify(newVal))
+  })
+
+   const newDeckSize = ref(state.shoeSize)
+</script>
+
 <template>
-  <!-- <Teleport to="body">
-    <div v-if="modelValue" class="settings-modal-overlay">
-      <div class="settings-modal-content">
-        <button @click="$emit('update:modelValue', false)" class="settings-modal-close">
-          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-        <h2 class="settings-modal-title">Settings</h2>
-        <div>
-          <p>Settings go here.</p>
-        </div>
-      </div>
-    </div>
-  </Teleport> -->
   <TransitionRoot appear :show="modelValue" as="template">
     <Dialog as="div" @close="closeModal" class="relative z-10">
       <TransitionChild
@@ -50,14 +76,14 @@
               </DialogTitle>
               <div class="flex items-center justify-between py-3">
                
-                    <span class="text-[2rem] font-medium">Auto last bet?</span>
+                    <span class="text-[2rem] font-medium">Auto last bet</span>
                     <Switch
                       v-model="state.autoPlaceBet"
                       :class="state.autoPlaceBet ? 'bg-green-600' : 'bg-gray-200'"
                       class="relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none"
                       key="placebet"
                     >
-                      <span class="sr-only">Auto last bet?</span>
+                      <span class="sr-only">Auto last bet</span>
                       <span
                         :class="state.autoPlaceBet ? 'translate-x-7' : 'translate-x-1'"
                         class="inline-block h-5 w-5 transform rounded-full bg-white transition"
@@ -65,16 +91,31 @@
                     </Switch>
                   </div>
                   <div class="flex items-center justify-between py-3">
-                    <span class="text-[2rem] font-medium">Sound?</span>
+                    <span class="text-[2rem] font-medium">Muted</span>
                     <Switch
                       v-model="state.isMuted"
-                      :class="!state.isMuted ? 'bg-green-600' : 'bg-gray-200'"
+                      :class="state.isMuted ? 'bg-green-600' : 'bg-gray-200'"
                       class="relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none"
                       key="sound"
                     >
-                      <span class="sr-only">Sound</span>
+                      <span class="sr-only">Muted</span>
                       <span
-                        :class="!state.isMuted ? 'translate-x-7' : 'translate-x-1'"
+                        :class="state.isMuted ? 'translate-x-7' : 'translate-x-1'"
+                        class="inline-block h-5 w-5 transform rounded-full bg-white transition"
+                      ></span>
+                    </Switch>
+                  </div>
+                  <div class="flex items-center justify-between py-3">
+                    <span class="text-[2rem] font-medium">Insurance</span>
+                    <Switch
+                      v-model="state.allowInsurance"
+                      :class="state.allowInsurance ? 'bg-green-600' : 'bg-gray-200'"
+                      class="relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none"
+                      key="insurance"
+                    >
+                      <span class="sr-only">Insurance</span>
+                      <span
+                        :class="state.allowInsurance ? 'translate-x-7' : 'translate-x-1'"
                         class="inline-block h-5 w-5 transform rounded-full bg-white transition"
                       ></span>
                     </Switch>
@@ -83,7 +124,7 @@
                     <span class="text-base text-[2rem] font-medium">Deck size</span>
                     <div class="flex gap-2">
                       <button v-for="n in [1,2,3,4,5,6,8]" :key="n" type="button"
-                        class="px-3 text-2xl py-1 rounded bg-gray-200 text-gray-800 font-semibold hover:bg-green-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        class="toggleButton px-3 py-1 rounded bg-gray-200 text-gray-800 hover:bg-green-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                         :class="{ 'bg-blue-600 text-green-600': newDeckSize === n }"
                         @click="newDeckSize = n"
                       >
@@ -100,31 +141,14 @@
   </TransitionRoot>
 </template>
 
-<script setup lang="ts">
-  import { ref } from 'vue'
-  import { state, resetBank } from '../store/store'
-  const props = defineProps<{ modelValue: boolean }>()
-  const emit = defineEmits(['update:modelValue'])
-  import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot, Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue';
-
-  function closeModal() {
-    emit('update:modelValue', false);
-  }
-
-  function restartGame() {
-    state.shoeSize = newDeckSize.value;
-    state.isGameOver = true
-    // resetBank();
-  }
-
-   const newDeckSize = ref(state.shoeSize)
-</script>
-
 <style scoped>
   .dialogButton {
     background-color: var(--color-green-500);
     color: var(--color-white);
     font-size: 2rem;
+  }
+  .toggleButton {
+    font-size: 1.5rem;
   }
   button.dialogButton.button:focus-visible:not(:disabled) {
     outline-offset: 0.25rem;

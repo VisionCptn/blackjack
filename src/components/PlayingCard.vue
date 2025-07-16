@@ -140,7 +140,7 @@ function getCardLabel(card: Card) {
   width: 100%;
   overflow: visible;
 }
-.card-back {
+/* .card-back {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,6 +150,17 @@ function getCardLabel(card: Card) {
   overflow: hidden;
   outline: 0.1rem solid rgba(255, 255, 255, 0.75);
   outline-offset: -0.65rem;
+  border: 0.4rem solid var(--color-white);
+} */
+
+.card-back {
+  display: flex;
+  transform: rotateY(-180deg);
+  background-color: var(--color-red);
+  /* padding: 0.3rem; */
+  overflow: hidden;
+  /* outline: 0.1rem solid rgba(255, 255, 255, 0.75);
+  outline-offset: -0.65rem; */
   border: 0.4rem solid var(--color-white);
 }
 .card-back svg {

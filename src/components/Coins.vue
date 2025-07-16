@@ -74,7 +74,7 @@ watch(() => state.currentBet, (newVal, oldVal) => {
   width: max-content;
   margin: 0 auto;
   order: -1;
-  bottom: 3rem;
+  bottom: 1rem;
   position: absolute;
 }
 .chip-container {

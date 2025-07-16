@@ -1,5 +1,7 @@
 <template>
-    <div class="chip-container" @click="handleClick">
+    <div class="chip-container"
+    :style="{ width: typeof width === 'number' ? width + 'rem' : width, height: typeof height === 'number' ? height + 'rem' : height }"
+    @click="handleClick">
   <svg
     :width="width"
     :height="height"
@@ -29,7 +31,7 @@
       fill="none"
     />
   </svg>
-   <span v-if="value" class="chip-number">{{value}}</span>
+   <span v-if="value" :style="{fontSize: typeof fontSize === 'number' ? fontSize + 'rem' : fontSize}" class="chip-number">{{value}}</span>
    </div>
 </template>
 
@@ -46,6 +48,10 @@ const props = defineProps({
   height: {
     type: [String, Number],
     default: 50, // Default height
+  },
+  fontSize: {
+    type: [String, Number],
+    default: 1.5, // Default font size for the chip number
   },
   value: {
     type: Number,

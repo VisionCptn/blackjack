@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.23",
     "@mdi/font": "^7.4.47",
+    "@nuxtjs/google-adsense": "^3.0.0",
     "@nuxtjs/tailwindcss": "^7.0.0-beta.0",
     "@types/howler": "^2.2.12",
     "howler": "^2.2.4",

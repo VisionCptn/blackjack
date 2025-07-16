@@ -14,6 +14,7 @@ const INITIAL_PLAYERS: Player[] = [
   { isDealer: false, bank: STARTING_BANK, hands: [new Hand()] },
   { isDealer: true, bank: 0, hands: [new Hand()] },
 ]
+const storageProps: string[] = ['isMuted', 'shoeSize', 'autoPlaceBet','allowInsurance']
 
 const reacreatePlayers = (bank: number): Player[] => {
   return [
@@ -30,22 +31,44 @@ export const state = reactive<GameState>({
   activeHand: null,
   isDealing: true,
   showDealerHoleCard: false,
-  isGameOver: false,
+  isGameOver: true,
+  isDoubleDown: false,
   isMuted: typeof window !== 'undefined' ? localStorage.getItem('isMuted') === 'true' : false,
   autoPlaceBet: typeof window !== 'undefined' ? localStorage.getItem('autoPlaceBet') === 'true' : false,
-  shoeSize: 2,
+  shoeSize: typeof window !== 'undefined' && localStorage.getItem('shoeSize') !== null ? Number(localStorage.getItem('shoeSize')) : 2,
   soundLoadProgress: 0,
   currentBet: 0,
   currentBetCoins: [],
   isBetPlaced: false,
+  isInsuranceOffered: false,
+  insuranceBet: 0,
+  allowInsurance: typeof window !== 'undefined' && localStorage.getItem('allowInsurance') !== null ? JSON.parse(localStorage.getItem('allowInsurance') as string) : false,
 })
 
+state.shoe[0].rank = '8';
+// state.shoe[1].rank = '8';
+state.shoe[2].rank = '8';
+// state.shoe[3].rank = '4';
+// state.shoe[4].rank = '2';
+// state.shoe[5].rank = '2';
+// state.shoe[6].rank = '2';
+// state.shoe[7].rank = '2';
+// state.shoe[8].rank = '2';
+// state.shoe[9].rank = '2';
+// state.shoe[10].rank = '2';
+// state.shoe[11].rank = '2';
+// state.shoe[12].rank = '2';
+// console.log(state.shoe)
 // Computed Properties
 
 export const dealer = computed(() => state.players[state.players.length - 1])
 
 const dealerHasBlackjack = computed(() => {
   return dealer.value.hands[0].isBlackjack
+})
+
+const userHasBlackjack = computed(() => {
+  return state?.players[0].hands[0].isBlackjack
 })
 
 const dealerTotal = computed(() => dealer.value.hands[0].total)
@@ -71,6 +94,14 @@ export const canSplit = computed(() => {
   )
 })
 
+export const canTakeInsurance = computed(() => {
+  if (!state.isInsuranceOffered || !state.allowInsurance) return false
+  if (state.insuranceBet > 0) return false
+  if (state.activeHand?.cards.length !== 2 || state.activePlayer!.hands?.length !== 1) return false
+  const maxInsurance = Math.floor((state.activeHand?.bet ?? 0) / 2)
+  return (state.activePlayer?.bank ?? 0) >= maxInsurance && maxInsurance > 0
+})
+
 export const resetBank = () => {
   state.players.forEach((p) => (p.bank = STARTING_BANK))
 }
@@ -84,7 +115,8 @@ export async function playRound() {
   state.showDealerHoleCard = false
   await placeBet(state.players[0], state.players[0].hands[0], state.currentBet || MINIMUM_BET)
   await dealRound()
-  if (dealerHasBlackjack.value) return endRound()
+  await checkForInsuranceOffer()
+  if ((dealerHasBlackjack.value && state.allowInsurance === false) || (dealerHasBlackjack.value && userHasBlackjack.value)) return endRound()
   playTurn(state.players[0])
 }
 
@@ -127,6 +159,17 @@ async function dealRound() {
       playSound(Sounds.Deal)
       await sleep(300)
     }
+  }
+}
+
+/** Check if insurance should be offered (dealer shows an Ace). */
+async function checkForInsuranceOffer() {
+  const dealerUpCard = dealer.value.hands[0].cards[1]
+  if (dealerUpCard && dealerUpCard.rank === 'A') {
+    state.isInsuranceOffered = true
+    state.activePlayer = state.players[0]
+    state.activeHand = state.players[0].hands[0]
+    await sleep(500)
   }
 }
 
@@ -273,9 +316,20 @@ export async function split(): Promise<void> {
 /** Double the bet for the active hand, and hit only once. */
 export async function doubleDown(): Promise<void> {
   if (!canDoubleDown.value) return
+  state.isDoubleDown = true;
   await placeBet(state.activePlayer!, state.activeHand!, state.activeHand!.bet)
   await hit()
   endHand()
+}
+
+/** Take insurance bet when dealer shows an Ace. */
+export async function takeInsurance(): Promise<void> {
+  if (!canTakeInsurance.value) return
+  const maxInsurance = Math.floor((state.activeHand?.bet ?? 0) / 2)
+  state.insuranceBet = maxInsurance
+  state.activePlayer!.bank -= maxInsurance
+  playSound(Sounds.Bet)
+  await sleep(300)
 }
 
 /** Advance to the next hand or player. */
@@ -356,6 +410,20 @@ function playSoundForResult(result: HandResult) {
 /** Add each hand's winnings to the hand's bet amount (so it can be collected later).*/
 async function settleBets() {
   let total = 0
+  
+  // Handle insurance bet
+  if (state.insuranceBet > 0) {
+    if (dealerHasBlackjack.value) {
+      // Insurance pays 2:1
+      total += state.insuranceBet * 3 // Original bet + 2:1 payout
+      console.log(`Insurance payout: ${state.insuranceBet * 3}`)
+    } else {
+      // Insurance loses
+      state.insuranceBet = 0
+    }
+    await sleep(300)
+  }
+  
   for (const player of state.players) {
     if (player.isDealer) continue
     for (const hand of player.hands) {
@@ -373,12 +441,21 @@ async function settleBets() {
 async function collectWinnings() {
   for (const player of state.players) {
     if (player.isDealer) continue
-    const total = player.hands.reduce((acc: number, hand: Hand) => acc + hand.bet, 0)
+    let total = 0;
+    // Add insurance winnings if any
+    if (state.insuranceBet > 0) {
+      total += state.insuranceBet * 3; // Original bet + 2:1 payout
+      state.insuranceBet = 0
+    } else {
+      total = player.hands.reduce((acc: number, hand: Hand) => acc + hand.bet, 0)
+    }
+    
     player.bank += total
     if (total > 0) playSound(Sounds.Bank)
     for (const hand of player.hands) hand.bet = 0
   }
   await sleep(300)
+  state.isDoubleDown = false;
 }
 
 /** Reset all hands to an initial state. */
@@ -390,6 +467,11 @@ async function resetHands() {
     }
   }
   state.players.forEach((p) => (p.hands = [new Hand()]))
+  
+  // Reset insurance state
+  state.isInsuranceOffered = false
+  state.insuranceBet = 0
+  
   await sleep()
 }
 
@@ -434,6 +516,9 @@ export async function loadStateFromStorage() {
     const parsed = JSON.parse(data)
     for (const key in parsed) {
       if (key in state) {
+        if (storageProps.includes(key)) {
+          continue; // Skip properties that are not meant to be restored
+        }
         if (key === 'players') {
           state[key] = reacreatePlayers(parsed[key][0].bank); // Recreate players with the bank from the saved state
           continue;

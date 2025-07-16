@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Card, Player, Hand } from '../types'
-import { dealer, state } from '../store/store'
+import { dealer, state, canTakeInsurance, takeInsurance } from '../store/store'
 import HandTotal from './HandTotal.vue'
 import HandBet from './HandBet.vue'
+import HandBetCopy from './HandBetCopy.vue'
 import PlayingCard from './PlayingCard.vue'
 
 import UserBet from './UserBet.vue'
@@ -12,12 +13,12 @@ const props = defineProps<{
   hand: Hand
   player: Player
 }>()
-console.log(state)
+
 const isActiveHand = computed(() => state.activeHand === props.hand && !props.player.isDealer)
 
 const isSplitHand = computed(
   () => state.activePlayer === props.player && !!state.activeHand && props.player.hands.length > 1,
-)
+);
 
 const isDealer = computed(() => dealer.value.hands.includes(props.hand))
 
@@ -34,17 +35,20 @@ function isSplitCard(card: Card) {
 </script>
 
 <template>
-
-  <UserBet v-if="!player.isDealer" :key="Date.now()" :class="{'opacityHalf': isSplitHand && !isActiveHand }" />
+  
   <article class="hand" :class="{ 'active-hand': isActiveHand, 'split-hand': isSplitHand }">
+    <UserBet v-if="!player.isDealer" :key="Date.now()" :class="{'opacityHalf': isSplitHand && !isActiveHand }" />
+    <div v-if="canTakeInsurance" class="buttonWrapper">
+      <button class="button" @click="takeInsurance" v-if="player.isDealer">insure</button>
+    </div>
     <h2 class="sr-only">{{ isDealer ? "Dealer's" : 'Your' }} hand</h2>
     <transition-group name="deal">
       <PlayingCard
-        v-for="card in hand.cards"
-        :card="card"
-        :is-face-down="isFaceDown(card)"
-        :key="card.index"
-        :class="{ 'split-card': isSplitCard(card) }"
+      v-for="card in hand.cards"
+      :card="card"
+      :is-face-down="isFaceDown(card)"
+      :key="card.index"
+      :class="{ 'split-card': isSplitCard(card) }"
       />
     </transition-group>
     <!-- todo  maybe render later with correct icons-->
@@ -61,9 +65,9 @@ function isSplitCard(card: Card) {
 </template>
 
 <style scoped>
+
 .hand {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 0.25rem;
   position: relative;
@@ -88,9 +92,16 @@ function isSplitCard(card: Card) {
   opacity: 0.5;
 }
 
+.hand {
+  max-width: 25rem;
+}
+
+.player:not(.dealer) .hand .card:nth-child(n+6) {
+  margin-top: -9rem;
+}
+
 .opacityHalf {
   opacity: 0.5;
-  scale: 0.7
 }
 .hand-result {
   position: absolute;
@@ -126,6 +137,28 @@ function isSplitCard(card: Card) {
   animation: unmask 0.1s ease-in-out reverse;
   z-index: 2;
 }
+/* button.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    font-variation-settings: 'wght' 500;
+    line-height: 1;
+    padding: 1rem 1.5rem;
+    border-radius: 1.75rem;
+    border: 0;
+    letter-spacing: 0.05rem;
+    background-color: rgba(from var(--color-off-white) r g b / 0.9);
+    color: currentColor;
+    cursor: pointer;
+} */
+ .buttonWrapper {
+  width: max-content;
+  position: absolute;
+  left: -10rem;
+  top: 3rem;
+ }
 @keyframes deal {
   0% {
     transform: translate3d(0, -100vh, 0);

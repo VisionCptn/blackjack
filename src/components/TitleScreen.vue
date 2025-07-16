@@ -15,18 +15,25 @@ async function continueGame() {
   await loadStateFromStorage();
   showTitleScreen.value = false
 }
+
+function getBank(): number {
+  const stateStr = localStorage.getItem('blackjackState');
+  if (!stateStr) return 0;
+  const stateObj = JSON.parse(stateStr);
+  return stateObj.players?.[0]?.bank ?? 0;
+}
 </script>
 
 <template>
   <!-- <transition name="fade" @after-leave="playRound"> -->
   <transition name="fade">
     <section v-if="showTitleScreen || state.isGameOver" class="title-screen">
-      <svg>
+      <!-- <svg>
         <use href="#flourish" />
-      </svg>
+      </svg> -->
       <div>
-        <h1>Vl<span>a</span>ck<span>j</span>ack</h1>
-        <p>Blackjack Simulator</p>
+        <h1>Bl<span>a</span>ck<span>j</span>ack</h1>
+        <!-- <p>Blackjack Simulator</p> -->
       </div>
       <transition name="fade" mode="out-in">
         <div>
@@ -35,12 +42,14 @@ async function continueGame() {
               {{ state.soundLoadProgress }}%
             </progress>
           </div>
-          <button class="button" v-else @click="startGame">
-            {{ state.isGameOver ? 'Play Again' : 'Start Game' }}
-          </button>
-          <button v-if="recordExists()" class="button" @click="continueGame">
-            Continue Previous Game
-          </button>
+          <div class="button-row">
+            <button class="button" @click="startGame">
+              New Game
+            </button>
+            <button v-if="recordExists()" class="button" @click="continueGame">
+              {{'Resume ' + getBank()}}
+            </button>
+          </div>
         </div>
       </transition>
     </section>
@@ -48,8 +57,16 @@ async function continueGame() {
 </template>
 
 <style scoped>
+/* Inline button row for title screen */
+.button-row {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
 .title-screen {
-  position: absolute;
+  /* position: absolute; */
   inset: 0;
   overflow: hidden;
   display: flex;
@@ -58,18 +75,21 @@ async function continueGame() {
   justify-content: center;
   text-align: center;
   gap: 3rem;
-  background-color: var(--color-dark-cyan);
+  /* background-color: var(--color-dark-cyan); */
+  height: 100dvh;
+  overflow: auto;
+  z-index: 9;
 }
 .title-screen > *:not(svg) {
   position: relative;
 }
-svg {
+/* svg {
   position: absolute;
   width: max(86rem, 125vw);
   aspect-ratio: 1;
   opacity: 0.25;
   animation: rotate 120s linear infinite;
-}
+} */
 h1 {
   color: var(--color-white);
   text-transform: uppercase;
@@ -123,9 +143,9 @@ progress::-moz-progress-bar {
   opacity: 0;
 }
 
-@keyframes rotate {
+/* @keyframes rotate {
   to {
     transform: rotate(360deg);
   }
-}
+} */
 </style>

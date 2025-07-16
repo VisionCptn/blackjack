@@ -3,12 +3,12 @@
   <div class="user-bet">
     <div class="chip-stack">
       <div class="chip-container" v-for="(coin, index) in state.currentBetCoins" :key="index">
-        <Chip :key="index" :color="coin.color" @click="() => deleteCoin(coin.value)" :value="coin.value" :width="'6rem'" :height="'6rem'" />
+        <Chip :key="index" :color="coin.color" @click="() => deleteCoin(coin.value)" :value="coin.value" :fontSize="'1rem'" :width="'4rem'" :height="'4rem'" />
       </div>
       <!-- <span class="chip-number">{{ coin.value }}</span> -->
     </div>
   </div>
-  <div class="user-bet-number">{{ state.currentBet }}</div>
+  <div class="user-bet-number">{{ state.isDoubleDown ? state.currentBet * 2 : state.currentBet }}</div>
 </div>
 <!-- Render user-bet-number below coins -->
 
@@ -52,7 +52,7 @@ let deleteCoin = (coinValue: number) => {
   font-weight: bold;
   color: white;
   text-align: center;
-  margin-top: 7rem;
+  margin-top: 4.5rem;
 }
 .user-bet {
   /* display: flex;
@@ -61,6 +61,9 @@ let deleteCoin = (coinValue: number) => {
   /* gap: 1rem; */
 }
 .user-bet-container{
+    position: absolute;
+    left: -5rem;
+    top: 3rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -75,8 +78,8 @@ let deleteCoin = (coinValue: number) => {
 
 .chip-container {
   position: absolute; /* Stack chips on top of each other */
-  width: 6rem;
-  height: 6rem;
+  width: 4rem;
+  height: 4rem;
   /* transform: translateY(calc(var(--chip-index) * -15px)); Shift each chip upwards */
 }
 

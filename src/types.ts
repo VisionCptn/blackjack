@@ -55,6 +55,14 @@ export type GameState = {
   autoPlaceBet: boolean
   // size of shoe (number of decks)
   shoeSize: number
+  /** Whether insurance is offered */
+  isInsuranceOffered: boolean
+  /** The insurance bet amount */
+  insuranceBet: number,
+  /** setting modal property flag for insurance option */
+  allowInsurance: boolean,
+  /** display double down coins */
+  isDoubleDown: boolean,
 }
 
 export class Hand {

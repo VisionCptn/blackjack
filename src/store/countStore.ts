@@ -30,3 +30,14 @@ export function dealCard() {
 export function resetCountPractice() {
   reshuffleShoe()
 }
+
+export async function dealAllCards(delay = 288) {
+  while (countState.shoe.length > 0) {
+    dealCard()
+    if (delay > 0) {
+      await new Promise(resolve => setTimeout(resolve, delay))
+    }
+  }
+}
+
+

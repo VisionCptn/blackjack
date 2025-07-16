@@ -28,7 +28,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+/* 
 @media (min-width: 917px) and (min-height: 768px) {
   :root {
     font-size: 10px;
@@ -39,27 +39,57 @@
   :root {
     font-size: 12px;
   }
+} */
+
+@media (min-width: 600px) and (min-height: 690px) {
+  :root {
+    font-size: 10px;
+  }
 }
 
+@media (min-width: 600px) and (min-height: 740px) {
+  :root {
+    font-size: 11px;
+  }
+}
 
-@media (min-width: 1224px) and (min-height: 900px) {
+@media (min-width: 600px) and (min-height: 798px) {
+  :root {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 600px) and (min-height: 866px) {
+  :root {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 1024px) and (min-height: 1300px) {
+  :root {
+    font-size: 16px;
+  }
+}
+/* 
+@media (min-width: 1224px) and (min-height: 990px) {
   :root {
     font-size: 14px;
   }
 }
 
-@media (min-width: 1624px) and (min-height: 900px) {
+@media (min-width: 1624px) and (min-height: 1200px) {
   :root {
-    font-size: 20px;
+    font-size: 16px;
   }
-}
+} */
 
-* {
+/* todo uncoment mb */
+/* * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   -webkit-user-select: none;
-}
+} */
 
 html,
 body {
@@ -89,7 +119,7 @@ body {
   background-size: cover;
   font-family: sans-serif;
 ; */
-background: radial-gradient(circle closest-corner at top 50% right calc(50% + 160px),rgba(0,0,0,0) 0,rgba(0,0,0,.45) 98%),repeat center center url(/green_table.png)
+background: radial-gradient(circle closest-corner at top 50% right calc(50% + 160px),rgba(0,0,0,0) 0,rgba(0,0,0,.45) 98%),repeat center center url(/green_table.webp);
   /* background: url('/green_table.png') repeat; */
 }
 

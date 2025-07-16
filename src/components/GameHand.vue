@@ -3,8 +3,6 @@ import { computed } from 'vue'
 import type { Card, Player, Hand } from '../types'
 import { dealer, state, canTakeInsurance, takeInsurance } from '../store/store'
 import HandTotal from './HandTotal.vue'
-import HandBet from './HandBet.vue'
-import HandBetCopy from './HandBetCopy.vue'
 import PlayingCard from './PlayingCard.vue'
 
 import UserBet from './UserBet.vue'

@@ -1,53 +1,66 @@
 <script setup lang="ts">
-import { playRound, state, resetBank, recordExists, loadStateFromStorage } from '../store/store'
+import { countState } from '../store/countStore'
 import { ref } from 'vue'
+
+const value = ref(52) // Default value for the slider
 
 const showTitleScreen = ref(true)
 
 function startGame() {
-  showTitleScreen.value = false
-  resetBank()
-  state.isGameOver = false
+//   showTitleScreen.value = false
+//   resetBank()
+//   state.isGameOver = false
 }
 
 async function continueGame() {
-  resetBank()
-  await loadStateFromStorage();
-  showTitleScreen.value = false
+//   resetBank()
+//   await loadStateFromStorage();
+//   showTitleScreen.value = false
 }
 
-function getBank(): number {
-  const stateStr = localStorage.getItem('blackjackState');
-  if (!stateStr) return 0;
-  const stateObj = JSON.parse(stateStr);
-  return stateObj.players?.[0]?.bank ?? 0;
-}
 </script>
 
 <template>
   <!-- <transition name="fade" @after-leave="playRound"> -->
   <transition name="fade">
-    <section v-if="showTitleScreen || state.isGameOver" class="title-screen">
+    <section v-if="countState.showTitleScreen" class="title-screen">
       <svg>
         <use href="#logo" />
       </svg>
-      <!-- <div> -->
+      <UContainer class="content_wrapper">
+        <!-- <div class="content_wrapper"> -->
+        <USlider
+          v-model="value"
+          :step="1"
+          :max="120"
+          :min="10"
+          :default-value="52"
+          />
+        {{ value }}
+      <!-- </div> -->
+
+      <div class="flex items-center justify-between py-3">
+                    <span class="text-base text-[2rem] font-medium">Deck size</span>
+                    <div class="flex gap-2">
+                      <button v-for="n in [1,2,3,4,5,6,8]" :key="n" type="button"
+                        class="toggleButton px-3 py-1 rounded bg-gray-200 text-gray-800 hover:bg-green-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        :class="{ 'bg-blue-600 text-green-600': countState.deckCount === n }"
+                        @click="countState.deckCount = n"
+                      >
+                        {{ n }}
+                      </button>
+                    </div>
+                  </div>
+                        </UContainer>
+        <!-- <div> -->
         <!-- <h1>Bl<span>a</span>ck<span>j</span>ack</h1> -->
         <!-- <p>Blackjack Simulator</p> -->
       <!-- </div> -->
       <transition name="fade" mode="out-in">
         <div>
-          <div class="progress-container" v-if="state.soundLoadProgress < 100">
-            <progress :value="state.soundLoadProgress" max="100">
-              {{ state.soundLoadProgress }}%
-            </progress>
-          </div>
           <div class="button-row">
             <button class="button" @click="startGame">
-              New Game
-            </button>
-            <button v-if="recordExists()" class="button" @click="continueGame">
-              {{'Resume ' + getBank()}}
+              Count
             </button>
           </div>
         </div>
@@ -58,6 +71,11 @@ function getBank(): number {
 
 <style scoped>
 /* Inline button row for title screen */
+.content_wrapper {
+    background: rgba(0, 30, 60, 0.85);
+    border-radius: 1rem;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
+}
 .button-row {
   display: flex;
   flex-direction: row;

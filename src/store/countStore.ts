@@ -9,6 +9,7 @@ export const countState = reactive({
   cardsPlayed: 0,
   dealtCards: [] as Card[],
   isDealing: false,
+  showTitleScreen: true,
 })
 
 export function reshuffleShoe() {

@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
 @font-face {
   font-family: 'Big Shoulders Display';
   font-style: normal;
@@ -135,13 +138,13 @@ h1 {
 h1 > span {
   color: var(--color-red);
 }
-
-button,
+/* techdept: check if not broke anything */
+/* button,
 input,
 textarea,
 select {
   font: inherit;
-}
+} */
 
 button.button {
   display: flex;

@@ -32,6 +32,7 @@ export default defineNuxtConfig({
         test: false // if we are using development env. the test variable will help us to show where your ads will appear
       }
     ],
+    '@nuxt/ui'
   ],
   css: [
     '~/src/assets/main.css'

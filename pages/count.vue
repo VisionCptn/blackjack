@@ -2,20 +2,20 @@
 <script setup lang="ts">
 import GameHeader from '../src/components/GameHeader.vue'
 import CountCards from '~/src/components/CountCards.vue';
+import SvgSprite from '../src/components/SvgSprite.vue';
+import CountTitleScreen from '../src/components/CountTitleScreen.vue';
+import { countState } from '../src/store/countStore';
+import App from '../src/app.vue';
 // Card counting guide page
 </script>
 
-
-
 <template>
-    <ClientOnly fallback-tag="span" fallback="Loading comments...">
-        <!-- <AnimatedBackground /> -->
-        <GameHeader />
-      </ClientOnly>
-      <section
-    >
+  <App>
+  <section>
     <!-- <UserBet v-if="!player.isDealer"/> -->
-    <CountCards />
+    <CountTitleScreen />
+    <CountCards v-if="!countState.showTitleScreen" />
+    
   </section>
     <div class="count-guide p-8 max-w-2xl mx-auto text-white">
       <h1 class="text-3xl font-bold mb-4">Card Counting Guide</h1>
@@ -40,6 +40,7 @@ import CountCards from '~/src/components/CountCards.vue';
         <li>Remember, card counting is not illegal, but casinos may ask you to leave if you’re caught.</li>
       </ul>
     </div>
+  </App>
 </template>
 
 

@@ -40,7 +40,7 @@
             </a>
             </MenuItem>
           </div>
-          <!-- <div class="px-1 py-1">
+          <div class="px-1 py-1">
             <MenuItem v-slot="{ active }">
               <a
                 href="/count"
@@ -52,7 +52,7 @@
                 Deck Count
             </a>
             </MenuItem>
-          </div> -->
+          </div>
         </MenuItems>
       </transition>
     </Menu>

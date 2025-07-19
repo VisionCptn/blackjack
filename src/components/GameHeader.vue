@@ -19,11 +19,11 @@ import DropdownMenu from './DropdownMenu.vue'
     <SettingsModal v-model:modelValue="showSettings" />
     <nav class="links">
       <NuxtLink to="/" class="nav-link" title="Home">
-        <span class="headerTextLink">Play Blackjack</span>
+        <span class="headerTextLink text-2xl">Play Blackjack</span>
       </NuxtLink>
-      <!-- <NuxtLink to="/count" class="nav-link" title="Card Counting Guide">
-        <span class="headerTextLink">Deck Count</span>
-      </NuxtLink> -->
+      <NuxtLink to="/count" class="nav-link" title="Card Counting Guide">
+        <span class="headerTextLink text-2xl">Deck Count</span>
+      </NuxtLink>
     </nav>
     <div id="navigation_menu">
       <DropdownMenu />
@@ -88,7 +88,7 @@ nav.links {
   color: var(--color-black);
 }
 .headerTextLink{
-  font-size: 1.5rem;
+  /* font-size: 1.5rem; */
   font-weight: 500;
   color: var(--color-off-white);
   text-decoration: none;

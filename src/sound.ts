@@ -1,4 +1,5 @@
 import { state } from './store/store'
+import { getFromStorage } from './helper'
 
 import deal from './assets/sounds/757328__steaq__ui-hover-item.mp3'
 import click from './assets/sounds/159698__qubodup__scroll-step-hover-sound-for-user-interface.mp3'
@@ -35,7 +36,7 @@ export enum Sounds {
   Bank,
   GameOver,
   DealerBlackjack,
-  Shuffle,
+  Shuffle
 }
 
 const files = new Map<Sounds, string>([
@@ -54,7 +55,7 @@ const files = new Map<Sounds, string>([
   [Sounds.BadHit, badHit],
   [Sounds.GoodHit, goodHit],
   [Sounds.GameOver, gameOver],
-  [Sounds.Shuffle, shuffle],
+  [Sounds.Shuffle, shuffle]
 ])
 
 const SOUND_PERCENT = 100 / files.size
@@ -105,7 +106,7 @@ export const playSound = async (sound: Sounds, restartIfPlaying = true) => {
   if (!ctx || !gainNode) return
   if (ctx.state === 'suspended') await ctx.resume()
   if (!buffers.has(sound)) return
-  if (state.isMuted) return
+  if (getFromStorage('isMuted', false)) return
   if (sources.has(sound)) {
     if (!restartIfPlaying) return
     stopSound(sound)

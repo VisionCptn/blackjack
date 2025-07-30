@@ -4,6 +4,7 @@ import { computed, nextTick, reactive } from 'vue'
 import { Sounds, playSound } from '../sound'
 import { Hand } from '../types'
 import { coins } from '../coins'
+import { sleep, getFromStorage } from '../helper'
 
 const MINIMUM_BET = 1
 const STARTING_BANK = 1000
@@ -24,7 +25,7 @@ const reacreatePlayers = (bank: number): Player[] => {
 }
 
 export const state = reactive<GameState>({
-  shoe: generateShoe(NUMBER_OF_DECKS),
+  shoe: [],
   cardsPlayed: 0,
   players: INITIAL_PLAYERS,
   activePlayer: null,
@@ -33,16 +34,15 @@ export const state = reactive<GameState>({
   showDealerHoleCard: false,
   isGameOver: true,
   isDoubleDown: false,
-  isMuted: typeof window !== 'undefined' ? localStorage.getItem('isMuted') === 'true' : false,
-  autoPlaceBet: typeof window !== 'undefined' ? localStorage.getItem('autoPlaceBet') === 'true' : false,
-  shoeSize: typeof window !== 'undefined' && localStorage.getItem('shoeSize') !== null ? Number(localStorage.getItem('shoeSize')) : 2,
+  autoPlaceBet: getFromStorage('autoPlaceBet', false),
+  shoeSize: getFromStorage('shoeSize', 2),
   soundLoadProgress: 0,
   currentBet: 0,
   currentBetCoins: [],
   isBetPlaced: false,
   isInsuranceOffered: false,
   insuranceBet: 0,
-  allowInsurance: typeof window !== 'undefined' && localStorage.getItem('allowInsurance') !== null ? JSON.parse(localStorage.getItem('allowInsurance') as string) : false,
+  allowInsurance: getFromStorage('allowInsurance', false),
 })
 
 // state.shoe[0].rank = '8';
@@ -58,6 +58,14 @@ export const state = reactive<GameState>({
 // state.shoe[10].rank = '2';
 // state.shoe[11].rank = '2';
 // state.shoe[12].rank = '2';
+// state.shoe[13].rank = '2';
+// state.shoe[14].rank = '2';
+// state.shoe[15].rank = '2';
+// state.shoe[16].rank = '2';
+// state.shoe[17].rank = '2';
+// state.shoe[18].rank = '2';
+// state.shoe[19].rank = '2';
+// state.shoe[20].rank = '2';
 // console.log(state.shoe)
 // Computed Properties
 
@@ -191,8 +199,6 @@ export function addBet(amount: number) {
   }
   // Logic to place a bet
   // addBet(amount);
-  console.log('Bet placed');
-  console.log(`Current bet: ${state.currentBet}`);
   // showCoins.visible = false; // Hide the Coins component after placing the bet
 }
 
@@ -341,8 +347,40 @@ export async function endHand() {
   if (nextPlayer.value) playTurn(nextPlayer.value)
 }
 
+export async function clearState() {
+  for (const player of state.players) {
+    if (player.isDealer) continue
+    let total = 0;
+    // Add insurance winnings if any
+    if (state.insuranceBet > 0) {
+      total += state.insuranceBet * 3; // Original bet + 2:1 payout
+      state.insuranceBet = 0
+    } else {
+      total = player.hands.reduce((acc: number, hand: Hand) => acc + hand.bet, 0)
+    }
+    
+    player.bank += total
+    
+    for (const hand of player.hands) hand.bet = 0
+  }
+  state.activeHand = null
+  state.activePlayer = null
+  await sleep(100)
+  state.isDoubleDown = false;
+
+  if (state.currentBet > 0) {
+    state.currentBet = 0;
+  }
+  state.currentBetCoins = [];
+  showCoins.visible = true;
+  state.isBetPlaced = false;
+  await resetHands(50);
+  state.isDealing = true;
+  state.isGameOver = true;
+}
+
 /** Determine any remaining results, settle bets, collect winnings, and reset hands before starting a new round. */
-async function endRound() {
+export async function endRound() {
   state.isDealing = true
   if (!state.showDealerHoleCard) await revealDealerHoleCard()
   if (dealerHasBlackjack.value) playSound(Sounds.DealerBlackjack)
@@ -416,7 +454,6 @@ async function settleBets() {
     if (dealerHasBlackjack.value) {
       // Insurance pays 2:1
       total += state.insuranceBet * 3 // Original bet + 2:1 payout
-      console.log(`Insurance payout: ${state.insuranceBet * 3}`)
     } else {
       // Insurance loses
       state.insuranceBet = 0
@@ -459,7 +496,7 @@ async function collectWinnings() {
 }
 
 /** Reset all hands to an initial state. */
-async function resetHands() {
+async function resetHands(sleepTime = 900) {
   for (const player of state.players) {
     for (const hand of player.hands) {
       state.shoe.push(...hand.cards)
@@ -472,7 +509,7 @@ async function resetHands() {
   state.isInsuranceOffered = false
   state.insuranceBet = 0
   
-  await sleep()
+  await sleep(sleepTime)
 }
 
 async function redoBet() {
@@ -494,11 +531,6 @@ async function redoBet() {
   state.players[0].bank -= prevBet; // Deduct the previous bet from the player's bank
   state.isBetPlaced = true;
   
-}
-
-/** Sleep for a given number of milliseconds. This paces the game and gives time for animations and sounds. */
-export function sleep(ms: number = 900) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 // Add a state variable to control the visibility of the Coins component

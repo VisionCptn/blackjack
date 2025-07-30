@@ -63,7 +63,6 @@ let deleteCoin = (coinValue: number) => {
 .user-bet-container{
     position: absolute;
     left: -5rem;
-    top: 3rem;
     display: flex;
     flex-direction: column;
     align-items: center;

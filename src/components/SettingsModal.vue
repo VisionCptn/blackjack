@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { state, resetBank } from '../store/store'
+  import { globalState } from '../store/globalStore';
   const props = defineProps<{ modelValue: boolean }>()
   const emit = defineEmits(['update:modelValue'])
   import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot, Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue';
@@ -21,8 +22,7 @@
     localStorage.setItem('autoPlaceBet', JSON.stringify(newVal))
   })
 
-  // Repeat for other switches:
-  watch(() => state.isMuted, (newVal) => {
+  watch(() => globalState.isMuted, (newVal) => {
     localStorage.setItem('isMuted', JSON.stringify(newVal))
   })
 
@@ -93,14 +93,14 @@
                   <div class="flex items-center justify-between py-3">
                     <span class="text-[2rem] font-medium">Muted</span>
                     <Switch
-                      v-model="state.isMuted"
-                      :class="state.isMuted ? 'bg-green-600' : 'bg-gray-200'"
+                      v-model="globalState.isMuted"
+                      :class="globalState.isMuted ? 'bg-green-600' : 'bg-gray-200'"
                       class="relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none"
                       key="sound"
                     >
                       <span class="sr-only">Muted</span>
                       <span
-                        :class="state.isMuted ? 'translate-x-7' : 'translate-x-1'"
+                        :class="globalState.isMuted ? 'translate-x-7' : 'translate-x-1'"
                         class="inline-block h-5 w-5 transform rounded-full bg-white transition"
                       ></span>
                     </Switch>

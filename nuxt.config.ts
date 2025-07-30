@@ -5,8 +5,9 @@ export default defineNuxtConfig({
       // update Nuxt defaults
       charset: 'utf-16',
       viewport: 'width=device-width, initial-scale=1',
-       script: [
+       script: process.env.NODE_ENV === 'production' ? [
         { src: 'https://www.googletagmanager.com/gtag/js?id=G-6RF6PMQEHC', defer: true },
+         { src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7216237547913391', defer: true, crossorigin: "anonymous"},
         {
           innerHTML: `
             window.dataLayer = window.dataLayer || [];
@@ -17,24 +18,34 @@ export default defineNuxtConfig({
           `,
           type: 'text/javascript',
         }
-      ]
+      ] : []
     }
   },
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
-    [
-      '@nuxtjs/google-adsense',
-      {
-        id: 'ca-pub-7216237547913391', // replace "#" with "2112345678904791",
-        onPageLoad: true, // this is required to be true for our ads to show in our 
-        test: false // if we are using development env. the test variable will help us to show where your ads will appear
-      }
-    ],
-    '@nuxt/ui'
   ],
+  build: {
+    transpile: ['vuetify'],
+  },
+  vite: {
+    define: {
+      'process.env.DEBUG': false,
+    },
+    ssr: {
+      noExternal: ['vuetify'],
+    },
+    vue: {
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith('amp-')
+        }
+      }
+    }
+  },
   css: [
+    '@mdi/font/css/materialdesignicons.min.css',
     '~/src/assets/main.css'
   ]
 })

@@ -39,8 +39,6 @@ export type GameState = {
   isDealing: boolean
   /** Whether the dealer's hole card is face up */
   showDealerHoleCard: boolean
-  /** Whether the sound is muted */
-  isMuted: boolean
   /** Whether the game is over due to bankruptcy */
   isGameOver: boolean
   /** The download progress of the sound files */
@@ -63,6 +61,22 @@ export type GameState = {
   allowInsurance: boolean,
   /** display double down coins */
   isDoubleDown: boolean,
+}
+
+export type CountState = {
+  shoe: Card[]
+  cardsPlayed: number
+  dealtCards: Card[]
+  isDealing: boolean
+  showTitleScreen: boolean
+  countDeckCount: number
+  dealSpeed: number
+  hiddenCard: Card
+  result: boolean | 'correct' | 'wrong'
+  isAllCardsDealt: boolean
+  currentCount: number
+  countdown: number
+  showCountdown: boolean
 }
 
 export class Hand {

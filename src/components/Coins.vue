@@ -19,7 +19,8 @@
 
 <!-- <script lang="ts" setup></script> -->
 <script lang="ts" setup>
-import { showCoins, addBet, state, playRound, sleep} from '../store/store';
+import { showCoins, addBet, state, playRound } from '../store/store';
+import { sleep } from '../helper'
 import { coins } from '../coins';
 import Chip from './Chip.vue';
 import { ref, watch } from 'vue'

@@ -14,6 +14,28 @@ async function homeClick() {
   countState.showTitleScreen = true;
   await resetState();
 }
+
+const low = [
+    {rank: '2', suit: '♦', index: 1},
+    {rank: '3', suit: '♣', index: 2},
+    {rank: '4', suit: '♥', index: 3},
+    {rank: '5', suit: '♦', index: 4},
+    {rank: '6', suit: '♥', index: 5},
+]
+
+const mid = [
+    {rank: '7', suit: '♣', index: 10},
+    {rank: '8', suit: '♦', index: 11},
+    {rank: '9', suit: '♥', index: 12},
+]
+
+const hi = [
+    {rank: '10', suit: '♦', index: 20},
+    {rank: 'J', suit: '♣', index: 21},
+    {rank: 'Q', suit: '♥', index: 22},
+    {rank: 'A', suit: '♦', index: 23},
+]
+
 </script>
 
 <template>
@@ -22,37 +44,82 @@ async function homeClick() {
       {{ countState.countdown > 0 ? countState.countdown : 'Begin!' }}
     </div>
 </transition>
-  <div class="content_wrapper" v-if="!countState.showCountdown && Object.keys(countState.hiddenCard).length > 0">
+  <div class="content_wrapper" >
     <ContentTopControls :homeClick="homeClick" />
     <div class="count_wrapper">
-      <PlayingCard
-        :card="countState.hiddenCard"
-        key="hidden"
-        :isFaceDown="countState.result === false"
-      />
-      <transition name="fade">
-        <div v-if="!countState.isAllCardsDealt">
-          <PlayingCard
-            v-for="card in lastDealtCard"
-            :card="card"
-            :key="card.index"
-          />
-        </div>
-      </transition>
-      <transition name="result">
-        <svg v-if="countState.result">
-          <use :href="`#result-${countState.result}`" />
-        </svg>
-      </transition>
-      <Controls />
+        <section class="player">
+            <article class="hand">
+                <PlayingCard
+                    v-for="card in low"
+                    :card="card"
+                    :key="card.index"
+                    
+                />
+            </article>
+            <p class="ss">2 - 6 = +1</p>
+        </section>
+
+        <section class="player">
+            <article class="hand">
+                <PlayingCard
+                    v-for="card in mid"
+                    :card="card"
+                    :key="card.index"
+                />
+            </article>
+            <p class="ss">7 - 9 = 0</p>
+        </section>
+
+
+        <section class="player">
+            <article class="hand">
+                <PlayingCard
+                    v-for="card in hi"
+                    :card="card"
+                    :key="card.index"
+                   
+                />
+            </article>
+            <p class="ss">10 - Ace = -1</p>
+        </section>
+
+
+
+
       <!-- {{ countState.result }}
       {{ countState.hiddenCard.rank }} -->
-      <!-- <p>{{ countState.currentCount }}</p> -->
+      <p>{{ countState.currentCount }}</p>
     </div>
   </div>
+  
 </template>
 
 <style scoped>
+
+.ss{
+    font-size: 40px;
+    color: white;
+}
+
+.player {
+        flex-grow: 0.5;
+    max-height: 28rem;
+}
+
+section.player[data-v-02281a80] {
+    display: flex;
+    /* flex-wrap: wrap; */
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    min-height: 11.2rem;
+    flex-direction: column;
+}
+
+
+
+
+
 .relative_wrapper {
   position: relative;
 }
@@ -157,12 +224,8 @@ async function homeClick() {
     animation: unmask 0.1s ease-in-out reverse;
     z-index: 2;
   }
-  /* .count_wrapper .card{
-    width: 8rem;
-    height: 11.2rem;
-  } */
-    .count_wrapper .card{
-    width: 12rem;
-    height: 17.2rem;
+  .count_wrapper .card{
+       margin-left: 5px;
   }
+
 </style>

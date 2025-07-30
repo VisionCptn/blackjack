@@ -30,6 +30,7 @@ function isSplitCard(card: Card) {
   if (props.player.hands.indexOf(props.hand) !== 1) return false
   return props.hand.cards.indexOf(card) === 0
 }
+
 </script>
 
 <template>
@@ -42,11 +43,11 @@ function isSplitCard(card: Card) {
     <h2 class="sr-only">{{ isDealer ? "Dealer's" : 'Your' }} hand</h2>
     <transition-group name="deal">
       <PlayingCard
-      v-for="card in hand.cards"
-      :card="card"
-      :is-face-down="isFaceDown(card)"
-      :key="card.index"
-      :class="{ 'split-card': isSplitCard(card) }"
+        v-for="card in hand.cards"
+        :card="card"
+        :is-face-down="isFaceDown(card)"
+        :key="card.index"
+        :class="{ 'split-card': isSplitCard(card) }"
       />
     </transition-group>
     <!-- todo  maybe render later with correct icons-->

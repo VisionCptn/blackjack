@@ -272,23 +272,13 @@
   padding: 0 1rem;
   font-family: inherit;
   line-height: 1.6;
-  background-color: blue;
   border: 2px solid white;
   margin-top: 40px;
   border-radius: 1.75rem;
 }
 
 .greenBG {
-    background-color: #1e521e;
-  background-image: 
-    repeating-linear-gradient(
-      45deg,
-      rgba(0, 0, 0, 0.05) 0px,
-      rgba(0, 0, 0, 0.05) 2px,
-      transparent 2px,
-      transparent 6px
-    );
-  background-size: cover;
+    background: radial-gradient(circle closest-corner at top 100% right 100%, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .46) 98%), repeat center center url(/green_table.webp);
   font-family: sans-serif;
 }
 

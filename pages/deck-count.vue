@@ -7,6 +7,10 @@ import { countState } from '../src/store/countStore';
 import App from '../src/App.vue';
 import CountContent from '../src/components/CountContent.vue';
 
+useHead({
+  title: 'Blackjack Coach - deck count simulator'
+})
+
 </script>
 
 <template>

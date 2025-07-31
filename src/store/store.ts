@@ -43,6 +43,7 @@ export const state = reactive<GameState>({
   isInsuranceOffered: false,
   insuranceBet: 0,
   allowInsurance: getFromStorage('allowInsurance', false),
+  record: getFromStorage('record', 1000),
 })
 
 // state.shoe[0].rank = '8';
@@ -490,6 +491,11 @@ async function collectWinnings() {
     player.bank += total
     if (total > 0) playSound(Sounds.Bank)
     for (const hand of player.hands) hand.bet = 0
+
+    if (player.bank > state.record) {
+      state.record = player.bank;
+      localStorage.setItem('record', String(player.bank))
+    }
   }
   await sleep(300)
   state.isDoubleDown = false;

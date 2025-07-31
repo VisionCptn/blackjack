@@ -15,6 +15,10 @@ import TitleScreen from '../src/components/TitleScreen.vue'
 import MainContent from '../src/components/MainContent.vue'
 import ContentTopControls from '../src/components/ContentTopControls.vue';
 
+useHead({
+  title: 'Blackjack Coach - Play Blackjack free'
+})
+
 </script>
 
 <template>

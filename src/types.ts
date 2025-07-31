@@ -61,6 +61,8 @@ export type GameState = {
   allowInsurance: boolean,
   /** display double down coins */
   isDoubleDown: boolean,
+  /** record value prop */
+  record: number,
 }
 
 export type CountState = {

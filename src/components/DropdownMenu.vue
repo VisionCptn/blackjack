@@ -43,7 +43,7 @@
           <div class="px-1 py-1">
             <MenuItem v-slot="{ active }">
               <a
-                href="/count"
+                href="/deck-count"
                 :class="[
                   active ? 'bg-violet-500 text-white' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-3xl',

@@ -20,7 +20,7 @@ async function indexClick() {
 }
 
 function handleCountClick(event: Event) {
-  if (route.path === '/count') {
+  if (route.path === '/deck-count') {
     event.preventDefault();
     countClick();
   }
@@ -50,7 +50,7 @@ function handleIndexClick(event: Event) {
         <NuxtLink to="/" @click="handleIndexClick" class="nav-link" title="Home">
           <span class="headerTextLink text-2xl">Play Blackjack</span>
         </NuxtLink>
-        <NuxtLink to="/count" @click="handleCountClick" class="nav-link" title="Card Counting Guide">
+        <NuxtLink to="deck-count" @click="handleCountClick" class="nav-link" title="Card Counting Guide">
           <span class="headerTextLink text-2xl">Deck Count</span>
         </NuxtLink>
       </nav>

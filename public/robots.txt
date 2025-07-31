@@ -1,2 +1,6 @@
-User-Agent: *
+User-agent: *
+Allow: /
+Allow: /deck-count
 Disallow:
+
+Sitemap: https://www.blackjack.coach/sitemap.xml

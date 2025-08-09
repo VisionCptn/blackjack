@@ -14,9 +14,9 @@
 
         <v-slider
             v-model="countState.dealSpeed"
-            color="#008000"
-            track-color="#008800"
-            :max="5"
+            :color="sliderColor"
+            :track-color="trackColor"
+            :max="150"
             tick-size="5"
             step="0.1"
             class="!m-0 slider"
@@ -30,7 +30,7 @@
             <span v-else><strong>{{ countState.dealSpeed }}</strong>sec</span>.
             <transition name="fade">
                 <span v-if="countState.dealSpeed > 0">
-                    If you are able to count one deck under <strong>30</strong> sec, you should be good to go. Current speed is approximately <strong>{{ (countState.dealSpeed * 52).toFixed(1) }}</strong> sec per deck.
+                    If you are able to count one deck under <strong>30</strong> sec, you should be good to go. Current speed is approximately <strong>{{ (countState.dealSpeed / 52).toFixed(1) }}</strong> sec per card.
                 </span>
             </transition>
         </p>
@@ -66,6 +66,20 @@
 import { countState, startCountdown, resetState }  from '../../store/countStore';
 import { globalState } from '../../store/globalStore';
 import { closeModal } from '../../store/globalStore';
+import { computed } from 'vue';
+
+// Dynamic slider colors based on deal speed
+const sliderColor = computed(() => {
+  if (countState.dealSpeed <= 30) return '#008000'; // Green
+  if (countState.dealSpeed <= 60) return '#808080'; // Grey  
+  return '#ff0000'; // Red
+});
+
+const trackColor = computed(() => {
+  if (countState.dealSpeed <= 30) return '#008800'; // Dark Green
+  if (countState.dealSpeed <= 60) return '#606060'; // Dark Grey
+  return '#cc0000'; // Dark Red
+});
 
 watch(() => globalState.isMuted, (newVal) => {
     localStorage.setItem('isMuted', JSON.stringify(newVal))

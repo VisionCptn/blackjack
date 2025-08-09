@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import SettingsModal from './SettingsModal.vue'
 import DropdownMenu from './DropdownMenu.vue'
 import { resetState, countState } from '../store/countStore';
+import { state as basicState } from '../store/basicStrategyStore'
 
 const showSettings = ref(false)
 
@@ -17,6 +18,18 @@ async function countClick() {
 async function indexClick() {
   await endRound();
   state.isGameOver = true;
+}
+
+async function basicStrategyClick() {
+  basicState.showTitleScreen = true;
+}
+
+
+function handleBasicStrategyClick(event: Event) {
+  if (route.path === '/basic-strategy') {
+    event.preventDefault();
+    basicStrategyClick();
+  }
 }
 
 function handleCountClick(event: Event) {
@@ -49,6 +62,9 @@ function handleIndexClick(event: Event) {
       <nav class="links">
         <NuxtLink to="/" @click="handleIndexClick" class="nav-link" title="Home">
           <span class="headerTextLink text-2xl">Play Blackjack</span>
+        </NuxtLink>
+         <NuxtLink to="basic-strategy" @click="handleBasicStrategyClick" class="nav-link" title="Card Counting Guide">
+          <span class="headerTextLink text-2xl">Basic Strategy</span>
         </NuxtLink>
         <NuxtLink to="deck-count" @click="handleCountClick" class="nav-link" title="Card Counting Guide">
           <span class="headerTextLink text-2xl">Deck Count</span>

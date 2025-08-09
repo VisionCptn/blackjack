@@ -24,26 +24,17 @@
     /> -->
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+
 import Chip from './Chip.vue';
-import { coins } from '../coins';
-import { state } from '../store/store';
+import * as defaulStore from '../store/store';
+
+const store = inject('gameStore', defaulStore);
+const state = store.state;
 
 
 let deleteCoin = (coinValue: number) => {
-    if (state.activeHand !== null) return;
-    state.currentBet -= coinValue;
-    state.currentBetCoins.pop();
-    state.players[0].bank += coinValue;
+    store.deleteCoin(coinValue);
 }
-// currentBetCoins
-// Example coins data
-// const coins = ref([
-//   { value: 1, count: 4, color: 'gray' },
-//   { value: 5, count: 3, color: 'red' },
-//   { value: 25, count: 2, color: 'blue' },
-//   { value: 100, count: 1, color: 'black' },
-// ]);
 </script>
 
 <style scoped>

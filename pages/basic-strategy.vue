@@ -2,24 +2,20 @@
 <script setup lang="ts">
 import App from '../src/App.vue'
 
-import { sleep } from '../src/helper';
+import { state, clearState } from '../src/store/basicStrategyStore'
+import GameHand from '../src/containers/basicStrategy/gameHand.container.vue'
+import PlayerToolbar from '../src/containers/basicStrategy/playerToolbar.container.vue'
+import TitleScreen from '../src/components/TitleContent/BasicStrategyScreen.vue'
+import BasicStats from '~/src/components/BasicStrategy/BasicStats.vue'
 
-import { state, clearState } from '../src/store/store'
-import GameHand from '../src/containers/index/gameHand.container.vue'
-
-import PlayerToolbar from '../src/containers/index/playerToolbar.container.vue'
-import TitleScreen from '../src/components/TitleContent/TitleScreen.vue'
-
-import MainContent from '../src/components/MainContent.vue'
+import MainContent from '../src/components/BasicStrategyContent.vue' // todo make correct content for basic strategy
 import ContentTopControls from '../src/components/ContentTopControls.vue';
 
 useHead({
-  title: 'Blackjack Coach - Play Blackjack free'
+  title: 'Blackjack Coach - Basic Strategy'
 })
 
-const clearClick = () => {
-  sleep(500);
-  nextTick(); // Ensure the UI updates before clearing state
+const homeButtonClick = () => {
   clearState(true);
 }
 
@@ -29,7 +25,8 @@ const clearClick = () => {
   <App>
     <TitleScreen />
     <div v-show="!state.isGameOver" class="content_wrapper">
-      <ContentTopControls :home-click="clearClick"/>
+      <ContentTopControls :home-click="homeButtonClick"/>
+      <BasicStats />
       <main>
           <!-- <Coins /> -->
           <section
@@ -46,12 +43,21 @@ const clearClick = () => {
     </div>
 
   <template v-slot:content>
-    <MainContent />
+    <div class="strategy-content">
+      <BasicStrategyStats />
+      <MainContent />
+    </div>
   </template>
   </App>
 </template>
 
 <style scoped>
+.strategy-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
 
 .main-layout {
    background: radial-gradient(circle closest-corner at top 50% right calc(50% + 160px),rgba(0,0,0,0) 0,rgba(0,0,0,.45) 98%),repeat center center url(/green_table.webp);

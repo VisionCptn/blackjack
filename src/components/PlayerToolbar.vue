@@ -1,17 +1,24 @@
 <script setup lang="ts">
-import { canDoubleDown, canSplit, state, doubleDown, endHand, hit, split } from '../store/store';
-import PlayerBank from './PlayerBank.vue';
-import Coins from './Coins.vue';
+// import { canDoubleDown, canSplit, state, doubleDown, endHand, hit, split } from '../store/store';
+import * as defaultStrore from '../store/store'
+
+const store = inject('gameStore', defaultStrore);
+const { canDoubleDown, canSplit, state, doubleDown, endHand, hit, split } = store;
 </script>
 
 <template>
   <div class="toolbar-wrapper">
-    <Coins />
+    <slot name="coins">
+        <!-- Default or empty slot for coins -->
+      </slot>
+   
     <div role="toolbar">
       <button class="button" :disabled="!canDoubleDown" @click="doubleDown">Double<br />Down</button>
       <button class="button" :disabled="!canSplit" @click="split">Split</button>
-      <PlayerBank />
-      <button class="button" :disabled="state.isDealing" @click="endHand">Stand</button>
+        <slot name="player-bank">
+          <!-- Default or empty slot for bank -->
+        </slot>
+      <button class="button" :disabled="state.isDealing" @click="() => endHand(true)">Stand</button>
       <button class="button" :disabled="state.isDealing" @click="hit">Hit</button>
     </div>
   </div>

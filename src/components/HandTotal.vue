@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { Hand } from '../types';
-import { dealer, state } from '../store/store';
+import * as defaultStore from '../store/store';
 import { computed } from 'vue'
+
+const store = inject('gameStore', defaultStore)
+const { dealer, state } = store;
+
 
 const props = defineProps<{ hand: Hand }>()
 
@@ -10,7 +14,7 @@ const total = computed(() => {
   const isDealer = dealer.value.hands.includes(props.hand)
   if (isDealer && !state.showDealerHoleCard) return // Hide dealer's total until hole card is revealed
   return props.hand.total
-})
+});
 </script>
 
 <template>

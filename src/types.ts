@@ -81,6 +81,52 @@ export type CountState = {
   showCountdown: boolean
 }
 
+export type BasicState = {
+  /** The shoe of cards */
+  shoe: Card[]
+  /** Number of cards played */
+  cardsPlayed: number
+  /** The players in the game, including the dealer */
+  players: Player[]
+  /** The player whose turn it is */
+  activePlayer: Player | null
+  /** The hand that is currently being played */
+  activeHand: Hand | null
+  /** Whether the dealer is dealing cards (preventing interaction) */
+  isDealing: boolean
+  /** Whether the dealer's hole card is face up */
+  showDealerHoleCard: boolean
+  /** Whether the game is over due to bankruptcy */
+  isGameOver: boolean
+  /** The download progress of the sound files */
+  soundLoadProgress: number
+  /// The current bet amount for the active hand
+  currentBet: number
+  // 
+  currentBetCoins: CoinBet[]
+  // prevent double betting
+  isBetPlaced: boolean
+  // should auto place previous bet
+  autoPlaceBet: boolean
+  // size of shoe (number of decks)
+  shoeSize: number
+  /** Whether insurance is offered */
+  isInsuranceOffered: boolean
+  /** The insurance bet amount */
+  insuranceBet: number,
+  /** setting modal property flag for insurance option */
+  allowInsurance: boolean,
+  /** display double down coins */
+  isDoubleDown: boolean,
+  /** record value prop */
+  record: number,
+  showDealBtn: boolean,
+  autoDeal: boolean,
+  rounds: number,
+}
+
+
+
 export class Hand {
   id: number
   cards: Card[]

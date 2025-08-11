@@ -7,7 +7,7 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1',
        script: process.env.NODE_ENV === 'production' ? [
         { src: 'https://www.googletagmanager.com/gtag/js?id=G-6RF6PMQEHC', defer: true },
-         { src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7216237547913391', defer: true, crossorigin: "anonymous"},
+        //  { src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7216237547913391', defer: true, crossorigin: "anonymous"},
         {
           innerHTML: `
             window.dataLayer = window.dataLayer || [];

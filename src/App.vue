@@ -34,7 +34,7 @@ useHead({
       <div class="content-area">
           <slot />
       </div>
-      <aside class="ads-vertical">
+      <!-- <aside class="ads-vertical">
         <amp-ad
             layout="fixed"
             width="300"
@@ -51,8 +51,7 @@ useHead({
             data-ad-client="ca-pub-7216237547913391"
             data-ad-slot="4293360341">
         </amp-ad>
-        <!-- <Adsbygoogle ad-slot="ad_desktop_2" class="ad-block" /> -->
-      </aside>
+      </aside> -->
     </div>
     <div class="blueBG w-full float-left">        
       <slot name="content">

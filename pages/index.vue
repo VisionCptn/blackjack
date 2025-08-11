@@ -14,7 +14,8 @@ import MainContent from '../src/components/MainContent.vue'
 import ContentTopControls from '../src/components/ContentTopControls.vue';
 
 useHead({
-  title: 'Blackjack Coach - Play Blackjack free'
+  title: 'Blackjack Coach - Play Blackjack free',
+  link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
 })
 
 const clearClick = () => {

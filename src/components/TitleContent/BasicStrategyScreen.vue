@@ -33,7 +33,7 @@ const openSettingsModal = () => {
   <transition name="fade">
     <section v-if="showTitleScreen || state.isGameOver" class="title-screen">
       <svg id="mainLogo">
-        <use href="#logo" />
+        <use href="#logo2" />
       </svg>
       <transition name="fade" mode="out-in">
         <div>

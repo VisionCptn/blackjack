@@ -41,16 +41,16 @@ const openSettingsModal = () => {
   <transition name="fade">
     <section v-if="showTitleScreen || state.isGameOver" class="title-screen">
       <div v-if="state.record > 1000" class="recordWrapper">
-        <svg width="4rem" height="4rem">
+        <svg>
           <use href="#champion" />
         </svg>
         <p>Record - ${{ state.record }}</p>
-        <svg width="4rem" height="4rem">
+        <svg>
           <use href="#champion" />
         </svg>
       </div>
       <svg id="mainLogo">
-        <use href="#logo" />
+        <use href="#logo2" />
       </svg>
       <transition name="fade" mode="out-in">
         <div>
@@ -100,7 +100,13 @@ const openSettingsModal = () => {
   display: flex;
   font-variation-settings: 'wght' 500;
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
 
+.recordWrapper svg {
+  min-width: 54px;
+  min-height: 54px;
+  width: 4rem;
+  height: 4rem;
 }
 
 .title-screen {

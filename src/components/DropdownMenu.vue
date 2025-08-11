@@ -32,38 +32,41 @@
         >
           <div class="px-1 py-1">
             <MenuItem v-slot="{ active }">
-              <a
-                href="/"
+              <NuxtLink
+                to="/"
+                @click="handleIndexClick"
                 class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-3xl"
               >
                 Play Blackjack
-            </a>
+            </NuxtLink>
             </MenuItem>
           </div>
           <div class="px-1 py-1">
             <MenuItem v-slot="{ active }">
-              <a
-                href="/basic-strategy"
+              <NuxtLink
+                to="/basic-strategy"
+                @click="handleBasicStrategyClick"
                 :class="[
                   active ? 'bg-violet-500 text-white' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-3xl',
                 ]"
               >
                 Basic Strategy
-            </a>
+            </NuxtLink>
             </MenuItem>
           </div>
           <div class="px-1 py-1">
             <MenuItem v-slot="{ active }">
-              <a
-                href="/deck-count"
+              <NuxtLink
+                to="/deck-count"
+                @click="handleCountClick"
                 :class="[
                   active ? 'bg-violet-500 text-white' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-3xl',
                 ]"
               >
                 Deck Count
-            </a>
+            </NuxtLink>
             </MenuItem>
           </div>
         </MenuItems>
@@ -74,6 +77,7 @@
 
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { handleIndexClick, handleBasicStrategyClick, handleCountClick } from '../composables/useNavigation';
 </script>
 
 <style scoped>

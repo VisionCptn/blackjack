@@ -21,6 +21,10 @@ function onClickCapture(e: MouseEvent) {
   }
 }
 
+useHead({
+  link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
+})
+
 </script>
 
 <template>

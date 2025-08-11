@@ -1,50 +1,10 @@
 <script setup lang="ts">
-import { state, endRound } from '../store/store'
 import { ref } from 'vue'
 import SettingsModal from './SettingsModal.vue'
 import DropdownMenu from './DropdownMenu.vue'
-import { resetState, countState } from '../store/countStore';
-import { state as basicState } from '../store/basicStrategyStore'
+import { handleBasicStrategyClick, handleCountClick, handleIndexClick } from '../composables/useNavigation'
 
 const showSettings = ref(false)
-
-const route = useRoute()
-
-async function countClick() {
-  countState.showTitleScreen = true;
-  await resetState();
-}
-
-async function indexClick() {
-  await endRound();
-  state.isGameOver = true;
-}
-
-async function basicStrategyClick() {
-  basicState.showTitleScreen = true;
-}
-
-
-function handleBasicStrategyClick(event: Event) {
-  if (route.path === '/basic-strategy') {
-    event.preventDefault();
-    basicStrategyClick();
-  }
-}
-
-function handleCountClick(event: Event) {
-  if (route.path === '/deck-count') {
-    event.preventDefault();
-    countClick();
-  }
-}
-
-function handleIndexClick(event: Event) {
-  if (route.path === '/') {
-    event.preventDefault();
-    indexClick();
-  }
-}
 
 </script>
 
@@ -54,7 +14,7 @@ function handleIndexClick(event: Event) {
       <div class="logoWrapper">
         <NuxtLink @click="handleIndexClick" class="logo" to="/">
           <svg aria-hidden="true">
-            <use href="#logo"/>
+            <use href="#logo2"/>
           </svg>
         </NuxtLink>
       </div>

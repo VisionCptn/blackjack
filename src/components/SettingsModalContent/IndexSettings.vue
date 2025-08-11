@@ -12,22 +12,25 @@
     // resetBank();
   }
 
-  watch(() => state.autoPlaceBet, (newVal) => {
-    localStorage.setItem('autoPlaceBet', JSON.stringify(newVal))
-  })
+    watch(() => state.autoPlaceBet, (newVal) => {
+        localStorage.setItem('autoPlaceBet', JSON.stringify(newVal))
+    })
 
-  watch(() => globalState.isMuted, (newVal) => {
-    localStorage.setItem('isMuted', JSON.stringify(newVal))
-  })
+    watch(() => globalState.isMuted, (newVal) => {
+        localStorage.setItem('isMuted', JSON.stringify(newVal))
+    })
 
-  watch(() => state.allowInsurance, (newVal) => {
-    localStorage.setItem('allowInsurance', JSON.stringify(newVal))
-  })
+    watch(() => state.allowInsurance, (newVal) => {
+        localStorage.setItem('allowInsurance', JSON.stringify(newVal))
+    })
 
-  watch(() => state.shoeSize, (newVal) => {
-    localStorage.setItem('shoeSize', JSON.stringify(newVal))
-  })
-////////
+    watch(() => state.shoeSize, (newVal) => {
+        localStorage.setItem('shoeSize', JSON.stringify(newVal))
+    })
+    watch(() => state.splitByValue, (newVal) => {
+        localStorage.setItem('index.splitByValue', JSON.stringify(newVal))
+    })
+  
 </script>
 
 <template v-slot:default>
@@ -58,6 +61,15 @@
                 key="insurance"
             ></v-switch>
         </div>
+        <div class="flex items-center justify-between">
+            <span class="text-[1.8rem] font-medium">Split by value</span>
+            <v-switch
+                v-model="state.splitByValue"
+                color="var(--color-green)"
+                key="splitByValue"
+            ></v-switch>
+        </div>
+        
         <v-divider class="border-opacity-50" color="success"></v-divider>
         <div class="flex items-center justify-between">
         <span class="text-[1.8rem] font-medium">Number of decks:</span>

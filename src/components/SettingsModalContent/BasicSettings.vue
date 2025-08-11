@@ -21,6 +21,9 @@ watch(() => state.rounds, (newVal) => {
     localStorage.setItem('basic.rounds', JSON.stringify(newVal))
 })
 
+watch(() => state.splitByValue, (newVal) => {
+    localStorage.setItem('basic.splitByValue', JSON.stringify(newVal))
+})
 </script>
 
 <template v-slot:default>
@@ -40,6 +43,15 @@ watch(() => state.rounds, (newVal) => {
                 v-model="globalState.isMuted"
                 color="var(--color-red)"
                 key="muted"
+            ></v-switch>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <span class="text-[1.8rem] font-medium">Split by value</span>
+            <v-switch
+                v-model="state.splitByValue"
+                color="var(--color-green)"
+                key="splitByValue"
             ></v-switch>
         </div>
 

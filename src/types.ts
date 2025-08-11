@@ -63,6 +63,7 @@ export type GameState = {
   isDoubleDown: boolean,
   /** record value prop */
   record: number,
+  splitByValue: boolean,
 }
 
 export type CountState = {
@@ -123,6 +124,7 @@ export type BasicState = {
   showDealBtn: boolean,
   autoDeal: boolean,
   rounds: number,
+  splitByValue: boolean,
 }
 
 

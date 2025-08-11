@@ -1,4 +1,4 @@
-import { generateShoe, shuffle } from '../cards'
+import { generateShoe, shuffle, CardValue } from '../cards'
 import type { GameState, HandResult, Player } from '../types'
 import { computed, nextTick, reactive } from 'vue'
 import { Sounds, playSound } from '../sound'
@@ -44,6 +44,7 @@ export const state = reactive<GameState>({
   insuranceBet: 0,
   allowInsurance: getFromStorage('allowInsurance', false),
   record: getFromStorage('record', 1000),
+  splitByValue: getFromStorage('index.splitByValue', true),
 })
 
 export const test = function() {
@@ -120,9 +121,14 @@ export const canSplit = computed(() => {
   if (state.isDealing) return false
   if ((state.activePlayer?.bank ?? 0) < (state.activeHand?.bet ?? 0)) return false
   return (
-    state.activeHand?.cards.length === 2 &&
+    (state.activeHand?.cards.length === 2 &&
     state.activePlayer?.hands.length === 1 &&
-    state.activeHand?.cards[0].rank === state.activeHand!.cards[1].rank
+    state.activeHand?.cards[0].rank === state.activeHand!.cards[1].rank) ||
+    ( state.splitByValue && 
+      state.activeHand?.cards.length === 2 &&
+      state.activePlayer?.hands.length === 1 &&
+      CardValue[state.activeHand?.cards[0].rank] === CardValue[state.activeHand?.cards[1].rank]
+    )
   )
 })
 
@@ -173,7 +179,7 @@ function drawCard() {
 /** Reshuffle the shoe if less than 25% of the cards are left. */
 async function reshuffleIfNeeded() {
 
-  const remainingPercentage = 1 - state.cardsPlayed / (NUMBER_OF_DECKS * 52)
+  const remainingPercentage = 1 - state.cardsPlayed / (state.shoeSize * 52)
   if (remainingPercentage > SHUFFLE_THRESHOLD) return
 
   playSound(Sounds.Shuffle)

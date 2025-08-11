@@ -1,37 +1,10 @@
 <script setup lang="ts">
-import { state, endRound } from '../store/store'
 import { ref } from 'vue'
 import SettingsModal from './SettingsModal.vue'
 import DropdownMenu from './DropdownMenu.vue'
-import { resetState, countState } from '../store/countStore';
+import { handleBasicStrategyClick, handleCountClick, handleIndexClick } from '../composables/useNavigation'
 
 const showSettings = ref(false)
-
-const route = useRoute()
-
-async function countClick() {
-  countState.showTitleScreen = true;
-  await resetState();
-}
-
-async function indexClick() {
-  await endRound();
-  state.isGameOver = true;
-}
-
-function handleCountClick(event: Event) {
-  if (route.path === '/deck-count') {
-    event.preventDefault();
-    countClick();
-  }
-}
-
-function handleIndexClick(event: Event) {
-  if (route.path === '/') {
-    event.preventDefault();
-    indexClick();
-  }
-}
 
 </script>
 
@@ -41,7 +14,7 @@ function handleIndexClick(event: Event) {
       <div class="logoWrapper">
         <NuxtLink @click="handleIndexClick" class="logo" to="/">
           <svg aria-hidden="true">
-            <use href="#logo"/>
+            <use href="#logo2"/>
           </svg>
         </NuxtLink>
       </div>
@@ -49,6 +22,9 @@ function handleIndexClick(event: Event) {
       <nav class="links">
         <NuxtLink to="/" @click="handleIndexClick" class="nav-link" title="Home">
           <span class="headerTextLink text-2xl">Play Blackjack</span>
+        </NuxtLink>
+         <NuxtLink to="basic-strategy" @click="handleBasicStrategyClick" class="nav-link" title="Card Counting Guide">
+          <span class="headerTextLink text-2xl">Basic Strategy</span>
         </NuxtLink>
         <NuxtLink to="deck-count" @click="handleCountClick" class="nav-link" title="Card Counting Guide">
           <span class="headerTextLink text-2xl">Deck Count</span>

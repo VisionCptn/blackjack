@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Allow: /deck-count
+Allow: /basic-strategy
 Disallow:
 
 Sitemap: https://www.blackjack.coach/sitemap.xml

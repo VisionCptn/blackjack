@@ -2,7 +2,7 @@
 <script setup lang="ts">
 
 import CountCards from '~/src/components/CountCards.vue';
-import CountTitleScreen from '../src/components/CountTitleScreen.vue';
+import CountTitleScreen from '../src/components/TitleContent/CountTitleScreen.vue';
 import { countState } from '../src/store/countStore';
 import App from '../src/App.vue';
 import CountContent from '../src/components/CountContent.vue';

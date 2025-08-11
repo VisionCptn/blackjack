@@ -267,7 +267,7 @@
 }
 
 .blackjack-content {
-  max-width: 48rem;
+  max-width: 56rem;
   margin: 0 auto;
   padding: 0 1rem;
   font-family: inherit;

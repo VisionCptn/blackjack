@@ -46,7 +46,6 @@ export function resetCountPractice() {
 }
 
 export async function startDealing() {
-  countState.shoe = generateShoe(countState.countDeckCount);
   countState.hiddenCard = countState.shoe.pop() || { rank: 'A', suit: '♠', index: 0 };
   if (countState.dealSpeed !== 0) {
     await dealAllCards(countState.dealSpeed);
@@ -57,7 +56,8 @@ export async function startDealing() {
 }
 
 export async function dealAllCards(delay = 1000) {
-  delay = delay * 1000;
+  console.log('Dealing all cards with delay:', delay);
+  delay = Number((delay / 52 * 1000).toFixed())
   // console.log(delay * 1000);
   while (countState.shoe.length > 0) {
     dealCard()
@@ -79,12 +79,13 @@ export async function resetState() {
   countState.isDealing = false;
   countState.result = false;
   countState.hiddenCard = {} as Card;
-
+  countState.shoe = []; // Reset the shoe to prevent continued dealing
   countState.isAllCardsDealt = false;
   countState.currentCount = 0;
 }
 
-export function startCountdown() {
+export async function startCountdown() {
+  countState.shoe = generateShoe(countState.countDeckCount);
   if (countState.dealSpeed !== 0) {
     countState.showCountdown = true;
     countState.countdown = 3;

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Card, Player, Hand } from '../types'
-import { dealer, state, canTakeInsurance, takeInsurance } from '../store/store'
-import HandTotal from './HandTotal.vue'
+import * as defaulStore from '../store/store'
+import HandTotal from '../containers/index/handTotal.container.vue';
 import PlayingCard from './PlayingCard.vue'
 
-import UserBet from './UserBet.vue'
+const store = inject('gameStore', defaulStore)
+const { dealer, state, canTakeInsurance, takeInsurance } = store;
 
 const props = defineProps<{
   hand: Hand
@@ -30,13 +31,13 @@ function isSplitCard(card: Card) {
   if (props.player.hands.indexOf(props.hand) !== 1) return false
   return props.hand.cards.indexOf(card) === 0
 }
-
 </script>
 
 <template>
-  
   <article class="hand" :class="{ 'active-hand': isActiveHand, 'split-hand': isSplitHand }">
-    <UserBet v-if="!player.isDealer" :key="Date.now()" :class="{'opacityHalf': isSplitHand && !isActiveHand }" />
+    <slot name="user-bet">
+
+    </slot>
     <div v-if="canTakeInsurance" class="buttonWrapper">
       <button class="button" @click="takeInsurance" v-if="player.isDealer">insure</button>
     </div>
@@ -59,7 +60,9 @@ function isSplitCard(card: Card) {
         </svg>
       </transition>
     </div>
-    <HandTotal :hand="hand" />
+    <slot name="hand-total">
+      <HandTotal :hand="hand" />
+    </slot>
   </article>
 </template>
 
@@ -95,7 +98,11 @@ function isSplitCard(card: Card) {
   max-width: 25rem;
 }
 
-.player:not(.dealer) .hand .card:nth-child(n+6) {
+.player .hand .card:nth-child(n+6) {
+  margin-top: -9rem;
+}
+
+.player.dealer .hand .card:nth-child(n+5) {
   margin-top: -9rem;
 }
 
@@ -136,22 +143,6 @@ function isSplitCard(card: Card) {
   animation: unmask 0.1s ease-in-out reverse;
   z-index: 2;
 }
-/* button.button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-transform: uppercase;
-    font-size: 2.5rem;
-    font-variation-settings: 'wght' 500;
-    line-height: 1;
-    padding: 1rem 1.5rem;
-    border-radius: 1.75rem;
-    border: 0;
-    letter-spacing: 0.05rem;
-    background-color: rgba(from var(--color-off-white) r g b / 0.9);
-    color: currentColor;
-    cursor: pointer;
-} */
  .buttonWrapper {
   width: max-content;
   position: absolute;

@@ -15,6 +15,9 @@ import ContentTopControls from '../src/components/ContentTopControls.vue';
 
 useHead({
   title: 'Blackjack Coach - Play Blackjack free',
+  meta: [
+    { name: 'title', content: 'Blackjack Coach - Play Blackjack free' }
+  ],
   link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
 })
 

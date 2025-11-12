@@ -284,7 +284,7 @@
 
 /* Typography using rems */
 .main-title {
-  font-size: 1.7rem;
+  font-size: 2.5rem;
   font-weight: bold;
   color: #1a1a1a;
   margin: 1.5rem 0;
@@ -293,7 +293,7 @@
 }
 
 .section-title {
-  font-size: 1.75rem;
+  font-size: 2.3rem;
   font-weight: bold;
   color: #2d2d2d;
   margin: 2rem 0 1rem 0;
@@ -308,7 +308,7 @@
 }
 
 .action-title {
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: 600;
   color: #333;
   margin: 0 0 0.5rem 0;
@@ -327,21 +327,21 @@
 }
 
 .content-text {
-  font-size: 1.3rem;
+  font-size: 2rem;
   color: #4a4a4a;
   margin: 0.75rem 0;
-  text-align: center;
+  text-align: justify;
 }
 
 .hero-description {
-  font-size: 1.3rem;
+  font-size: 2rem;
   color: #555;
   margin: 1rem 0 2rem 0;
   text-align: left;
 }
 
 .example-text {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: #666;
   font-style: italic;
   margin: 0.5rem 0;
@@ -408,7 +408,7 @@
 }
 
 .content-list li {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: #4a4a4a;
   margin: 0.5rem 0;
   padding-left: 1rem;
@@ -432,7 +432,7 @@
 }
 
 .numbered-list li {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: #4a4a4a;
   margin: 0.5rem 0;
   padding-left: 2rem;
